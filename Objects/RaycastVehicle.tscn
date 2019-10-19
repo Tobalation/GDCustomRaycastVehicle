@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/RaycastVehicleController.gd" type="Script" id=1]
-[ext_resource path="res://Scripts/SuspensionElement.gd" type="Script" id=2]
+[ext_resource path="res://Marine tank.ply" type="ArrayMesh" id=2]
+[ext_resource path="res://Scripts/SuspensionElement.gd" type="Script" id=3]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 3, 0.5, 4 )
@@ -9,50 +10,105 @@ size = Vector3( 3, 0.5, 4 )
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.5, 0.5, 2 )
 
-[sub_resource type="BoxShape" id=3]
+[sub_resource type="PlaneMesh" id=3]
+size = Vector2( 2.5, 3 )
+
+[sub_resource type="SpatialMaterial" id=4]
+flags_transparent = true
+albedo_color = Color( 0, 0, 0, 0.392157 )
+
+[sub_resource type="BoxShape" id=5]
 extents = Vector3( 1.5, 0.25, 2 )
 
 [node name="RaycastVehicle" type="RigidBody"]
 mass = 10.0
 can_sleep = false
-linear_damp = 0.45
-angular_damp = 0.5
+linear_damp = 0.5
+angular_damp = 0.75
 script = ExtResource( 1 )
+
+[node name="Marine tank" type="MeshInstance" parent="."]
+transform = Transform( -1, 0, -8.74228e-008, 0, 1, 0, 8.74228e-008, 0, -1, 0, 0.2, 0 )
+mesh = ExtResource( 2 )
+material/0 = null
 
 [node name="bodyBox" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+visible = false
 mesh = SubResource( 1 )
 material/0 = null
 
 [node name="frontBox" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.17807, 1.22314 )
+visible = false
 mesh = SubResource( 2 )
 material/0 = null
 
+[node name="FakeShadow" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
+mesh = SubResource( 3 )
+material/0 = SubResource( 4 )
+
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-shape = SubResource( 3 )
+shape = SubResource( 5 )
 
-[node name="FLray" type="RayCast" parent="."]
+[node name="Lray1" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 2 )
 enabled = true
 cast_to = Vector3( 0, -1.5, 0 )
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 
-[node name="FRray" type="RayCast" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1, 2 )
+[node name="Lray2" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 1 )
 enabled = true
 cast_to = Vector3( 0, -1.5, 0 )
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 
-[node name="RLray" type="RayCast" parent="."]
+[node name="Lray3" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 0 )
+enabled = true
+cast_to = Vector3( 0, -1.5, 0 )
+script = ExtResource( 3 )
+
+[node name="Lray4" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, -1 )
+enabled = true
+cast_to = Vector3( 0, -1.5, 0 )
+script = ExtResource( 3 )
+
+[node name="Lray5" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, -2 )
 enabled = true
 cast_to = Vector3( 0, -1.5, 0 )
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 
-[node name="RRray" type="RayCast" parent="."]
+[node name="Rray1" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1, 2 )
+enabled = true
+cast_to = Vector3( 0, -1.5, 0 )
+script = ExtResource( 3 )
+
+[node name="Rray2" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1, 1 )
+enabled = true
+cast_to = Vector3( 0, -1.5, 0 )
+script = ExtResource( 3 )
+
+[node name="Rray3" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1, 0 )
+enabled = true
+cast_to = Vector3( 0, -1.5, 0 )
+script = ExtResource( 3 )
+
+[node name="Rray4" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1, -1 )
+enabled = true
+cast_to = Vector3( 0, -1.5, 0 )
+script = ExtResource( 3 )
+
+[node name="Rray5" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1, -2 )
 enabled = true
 cast_to = Vector3( 0, -1.5, 0 )
-script = ExtResource( 2 )
+script = ExtResource( 3 )
