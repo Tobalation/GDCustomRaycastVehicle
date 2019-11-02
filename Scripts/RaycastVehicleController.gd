@@ -30,8 +30,9 @@ func _physics_process(delta) -> void:
 		apply_torque_impulse(global_transform.basis.xform(Vector3(0,turningPower * delta, 0)))
 	if Input.is_action_pressed("ui_right"):
 		apply_torque_impulse(global_transform.basis.xform(Vector3(0,-turningPower * delta, 0)))
-		
-	DrawLine3D.DrawRay(global_transform.origin,get_linear_velocity(),Color(255,0,255))
+	
+	if GameState.debugMode:
+		DrawLine3D.DrawRay(global_transform.origin,get_linear_velocity(),Color(255,0,255))
 		
 	# hand brake
 	if Input.is_action_pressed("ui_accept"):

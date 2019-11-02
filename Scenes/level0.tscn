@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Scripts/gameInit.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/GameState.gd" type="Script" id=1]
 [ext_resource path="res://Objects/TestLevel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/RaycastVehicle.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/CameraRig.tscn" type="PackedScene" id=4]
@@ -29,7 +29,7 @@ transform = Transform( -1, 0, -8.74228e-008, 0, 1, 0, 8.74228e-008, 0, -1, 0, 0,
 maxPitch = 45.0
 verticalSensitivity = 0.01
 horizontalSensitivity = 0.01
-camYOffset = 6.0
+camYOffset = 4.5
 camGroundOffset = 2.0
 target = NodePath("../RaycastVehicle")
 
@@ -37,3 +37,21 @@ target = NodePath("../RaycastVehicle")
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 12 )
 mesh = SubResource( 2 )
 material/0 = null
+
+[node name="DebugUI" type="Control" parent="."]
+editor/display_folded = true
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1280.0
+margin_top = -720.0
+
+[node name="Label" type="RichTextLabel" parent="DebugUI"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 512.0
+margin_bottom = 700.0
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+text = "Press ` to enable/dsiable DEBUG MODE.
+Press ESC to restrict/unrestrict mouse to window."

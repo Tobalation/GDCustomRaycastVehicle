@@ -12,6 +12,10 @@ var parentVelocity : Vector3
 var previousDistance : float = abs(cast_to.y)
 var previousHit : Vector3 = Vector3()
 
+# function for applying drive force to parent body
+func applyDriveForce(force : Vector3) -> void:
+	parentBody.apply_impulse(parentBody.global_transform.basis.xform(parentBody.to_local(get_collision_point())),force)
+
 func _ready() -> void:
 	parentBody = get_parent()
 	
@@ -31,11 +35,6 @@ func _physics_process(delta) -> void:
 		var suspensionForce = springForce * (abs(cast_to.y) - curDistance) + damping * (previousDistance - curDistance)/delta
 		var suspensionImpulse = global_transform.basis.y * suspensionForce * delta
 		
-		DrawLine3D.DrawRay(get_collision_point(),suspensionImpulse,Color(0,255,0))
-		DrawLine3D.DrawRay(get_collision_point(),sideWaysForce,Color(255,0,0))
-		DrawLine3D.DrawRay(get_collision_point(),decelerationForce,Color(0,0,255))
-#		DrawLine3D.DrawRay(get_collision_point(),velocity,Color(255,0,255))
-		
 		var finalForce = suspensionImpulse + sideWaysForce + decelerationForce
 		
 		# negate suspension forces to stop sliding
@@ -46,8 +45,13 @@ func _physics_process(delta) -> void:
 		var antiSlideForce = global_transform.basis.x * finalForce.y * gravNormDot * slopeLatDot
 		finalForce += antiSlideForce
 		
-		DrawLine3D.DrawRay(get_collision_point(),uphillVec,Color(0,0,0))
-		DrawLine3D.DrawRay(get_collision_point(),antiSlideForce,Color(255,255,255))
+		if GameState.debugMode:
+			DrawLine3D.DrawRay(get_collision_point(),suspensionImpulse,Color(0,255,0))
+			DrawLine3D.DrawRay(get_collision_point(),sideWaysForce,Color(255,0,0))
+			DrawLine3D.DrawRay(get_collision_point(),decelerationForce,Color(0,0,255))
+			
+			DrawLine3D.DrawRay(get_collision_point(),uphillVec,Color(0,0,0))
+			DrawLine3D.DrawRay(get_collision_point(),antiSlideForce,Color(255,255,255))
 		
 		# note that the point has to be xform()'ed to be at the correct location. Xform makes the pos global
 		parentBody.apply_impulse(parentBody.global_transform.basis.xform(parentBody.to_local(get_collision_point())),finalForce)

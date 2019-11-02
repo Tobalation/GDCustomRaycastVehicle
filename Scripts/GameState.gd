@@ -1,6 +1,8 @@
 extends Node
 
+# global vars
 var mouseHidden : bool = true
+var debugMode : bool = true
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -15,3 +17,8 @@ func _input(event):
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 #			OS.window_fullscreen = true
 			mouseHidden = true
+	if event.is_action_pressed("debug_key"):
+		if debugMode == true:
+			debugMode = false
+		else:
+			debugMode = true
