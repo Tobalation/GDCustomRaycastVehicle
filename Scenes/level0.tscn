@@ -1,18 +1,15 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/GameState.gd" type="Script" id=1]
 [ext_resource path="res://Objects/TestLevel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/RaycastVehicle.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/OrbitCamera.tscn" type="PackedScene" id=4]
-[ext_resource path="res://DitherTransparent.shader" type="Shader" id=5]
 
-[sub_resource type="ShaderMaterial" id=1]
-shader = ExtResource( 5 )
-shader_param/albedo = Color( 0.45098, 0.611765, 0.815686, 1 )
-shader_param/ditherAmt = 0.25
+[sub_resource type="GDScript" id=3]
+script/source = "extends Label
 
-[sub_resource type="CylinderMesh" id=2]
-material = SubResource( 1 )
+func _process(delta):
+	text = \"FPS: \" + String(Engine.get_frames_per_second())"
 
 [node name="gameRoot" type="Node"]
 script = ExtResource( 1 )
@@ -29,11 +26,6 @@ transform = Transform( -1, 0, -8.74228e-008, 0, 1, 0, 8.74228e-008, 0, -1, 0, 4,
 camZOffset = 2.0
 target = NodePath("../RaycastVehicle")
 
-[node name="ditherTransTest" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 12 )
-mesh = SubResource( 2 )
-material/0 = null
-
 [node name="DebugUI" type="Control" parent="."]
 editor/display_folded = true
 anchor_left = 1.0
@@ -43,11 +35,20 @@ anchor_bottom = 1.0
 margin_left = -1280.0
 margin_top = -720.0
 
-[node name="Label" type="RichTextLabel" parent="DebugUI"]
+[node name="Hint" type="Label" parent="DebugUI"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 512.0
-margin_bottom = 700.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-text = "Press ` to enable/dsiable DEBUG MODE.
+margin_bottom = 64.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Press ` to enable/disable viewing of forces.
 Press ESC to restrict/unrestrict mouse to window."
+
+[node name="FPS" type="Label" parent="DebugUI"]
+margin_left = 20.0
+margin_top = 60.0
+margin_right = 512.0
+margin_bottom = 104.0
+custom_colors/font_color = Color( 1, 0.807843, 0, 1 )
+text = "FPS: 0"
+script = SubResource( 3 )

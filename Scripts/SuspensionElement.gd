@@ -1,41 +1,49 @@
 extends RayCast
+
 # control variables
 export var springForce : float = 80.0
 export var stifness : float = 0.8
 export var damping : float = 0.08
 export var Xtraction : float = 20.0
 export var Ztraction : float = 2.0
+
+# public variables
+var instantLinearVelocity : Vector3
+
 # private variables
 var parentBody : RigidBody
-var parentVelocity : Vector3
 var previousDistance : float = abs(cast_to.y)
 var previousHit : Vector3 = Vector3()
 
-# function for applying drive force to parent body
+# function for applying drive force to parent body (if grounded)
 func applyDriveForce(force : Vector3) -> void:
-	parentBody.apply_impulse(parentBody.global_transform.basis.xform(parentBody.to_local(get_collision_point())),force)
+	if is_colliding():
+		parentBody.apply_impulse(parentBody.global_transform.basis.xform(parentBody.to_local(get_collision_point())),force)
 
 func _ready() -> void:
+	# setup references (only need to get once, should be more efficient?)
 	parentBody = get_parent()
 	add_exception(parentBody)
 	
 func _physics_process(delta) -> void:
+	# if grounded, handle forces
 	if is_colliding():
-		# obtain instantaneaous velocity
+		# obtain instantaneaous instantLinearVelocity
 		var curHit = get_collision_point()
-		var velocity = (curHit - previousHit) / delta
-		# obtain axis velocity
-		var ZVelocity = global_transform.basis.xform_inv(velocity).z
-		var XVelocity = global_transform.basis.xform_inv(velocity).x
+		instantLinearVelocity = (curHit - previousHit) / delta
+		# obtain axis instantLinearVelocity
+		var ZVelocity = global_transform.basis.xform_inv(instantLinearVelocity).z
+		var XVelocity = global_transform.basis.xform_inv(instantLinearVelocity).x
 		# axis deceleration forces
 		var XForce = -global_transform.basis.x * XVelocity * Xtraction * delta
 		var ZForce = -global_transform.basis.z * ZVelocity * Ztraction * delta
-		# apply spring force with damping
+		# apply spring force with damping force, has very tiny jitter when near stable
 		var curDistance = (global_transform.origin - get_collision_point()).length()
-		var suspensionForce = (stifness * (abs(cast_to.y) - curDistance) + damping * (previousDistance - curDistance)/delta) * springForce
-		if suspensionForce < 0.0 : suspensionForce = 0.0
+		var FSpring = stifness * (abs(cast_to.y) - curDistance) 
+		var FDamp = damping * (previousDistance - curDistance)/delta
+		var suspensionForce = clamp((FSpring + FDamp) * springForce,0,500)
 		var suspensionImpulse = global_transform.basis.y * suspensionForce * delta
-		
+		# final impulse force vector to be applied
 		var finalForce = suspensionImpulse + XForce + ZForce
 		
 		# negate suspension forces to stop sliding
@@ -46,6 +54,7 @@ func _physics_process(delta) -> void:
 		var antiSlideForce = global_transform.basis.x * finalForce.y * gravNormDot * slopeLatDot
 		finalForce += antiSlideForce
 		
+		# draw debug lines using the awesome DrawLine3D library
 		if GameState.debugMode:
 			DrawLine3D.DrawRay(get_collision_point(),suspensionImpulse,Color(0,255,0))
 			DrawLine3D.DrawRay(get_collision_point(),XForce,Color(255,0,0))
@@ -59,5 +68,6 @@ func _physics_process(delta) -> void:
 		previousDistance = curDistance
 		previousHit = curHit
 	else:
+		# not grounded, set prev values to fully extended suspension
 		previousDistance = -cast_to.y
 		previousHit = global_transform.origin + cast_to

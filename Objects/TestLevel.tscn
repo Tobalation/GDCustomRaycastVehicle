@@ -202,6 +202,5 @@ material/0 = null
 shape = SubResource( 16 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.417927, 0.908481, 0, -0.908481, 0.417927, 0, 10.6264, 0 )
-visible = false
+transform = Transform( -0.998024, 0.0570876, -0.0262619, 0.0100297, 0.557285, 0.830261, 0.0620329, 0.828356, -0.556757, 0, 10.6264, 0 )
 shadow_enabled = true
