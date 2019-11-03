@@ -3,7 +3,7 @@
 [ext_resource path="res://Scripts/GameState.gd" type="Script" id=1]
 [ext_resource path="res://Objects/TestLevel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/RaycastVehicle.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Objects/CameraRig.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Objects/OrbitCamera.tscn" type="PackedScene" id=4]
 [ext_resource path="res://DitherTransparent.shader" type="Shader" id=5]
 
 [sub_resource type="ShaderMaterial" id=1]
@@ -25,12 +25,8 @@ gravity_scale = 2.0
 linear_damp = 0.1
 
 [node name="CameraRig" parent="." instance=ExtResource( 4 )]
-transform = Transform( -1, 0, -8.74228e-008, 0, 1, 0, 8.74228e-008, 0, -1, 0, 0, 0 )
-maxPitch = 45.0
-verticalSensitivity = 0.01
-horizontalSensitivity = 0.01
-camYOffset = 4.5
-camGroundOffset = 2.0
+transform = Transform( -1, 0, -8.74228e-008, 0, 1, 0, 8.74228e-008, 0, -1, 0, 4, 0 )
+camZOffset = 2.0
 target = NodePath("../RaycastVehicle")
 
 [node name="ditherTransTest" type="MeshInstance" parent="."]

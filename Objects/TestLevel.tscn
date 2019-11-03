@@ -4,7 +4,6 @@
 size = Vector2( 600, 600 )
 
 [sub_resource type="SpatialMaterial" id=2]
-params_cull_mode = 2
 albedo_color = Color( 0.0352941, 0.372549, 0.247059, 1 )
 metallic_specular = 0.0
 
@@ -55,7 +54,6 @@ points = PoolVector3Array( 0, 15, 15, 0, 15, -15, 0, 15, 15, 0, 15, -15, -15, -1
 
 [node name="Floor" type="MeshInstance" parent="."]
 editor/display_folded = true
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0471325, 0.00588036, 0.0266943 )
 cast_shadow = 0
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
