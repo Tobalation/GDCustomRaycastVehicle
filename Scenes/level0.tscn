@@ -5,7 +5,7 @@
 [ext_resource path="res://Objects/RaycastVehicle.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/OrbitCamera.tscn" type="PackedScene" id=4]
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Label
 
 func _process(delta):
@@ -51,4 +51,4 @@ margin_right = 512.0
 margin_bottom = 104.0
 custom_colors/font_color = Color( 1, 0.807843, 0, 1 )
 text = "FPS: 0"
-script = SubResource( 3 )
+script = SubResource( 1 )

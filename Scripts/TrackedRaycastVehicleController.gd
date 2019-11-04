@@ -8,20 +8,22 @@ var drivePerRay = enginePower
 func handleTankDrive(delta) -> void:
 	# skid steering (with neutral steer) setup
 	for ray in rayElements:
+		var dir = 0
 		if Input.is_action_pressed("ui_up"):
-			ray.applyDriveForce(global_transform.basis.z * drivePerRay * delta)
+			dir += 1
 		if Input.is_action_pressed("ui_down"):
-			ray.applyDriveForce(global_transform.basis.z * -drivePerRay * delta)
+			dir -= 1
 		if Input.is_action_pressed("ui_left"):
 			if ray.transform.origin.x > 0: # ray is on the left side
-				ray.applyDriveForce(global_transform.basis.z * -drivePerRay * delta)
+				dir -= 1
 			else:
-				ray.applyDriveForce(global_transform.basis.z * drivePerRay * delta)
+				dir += 1
 		if Input.is_action_pressed("ui_right"):
 			if ray.transform.origin.x > 0: # ray is on the left side
-				ray.applyDriveForce(global_transform.basis.z * drivePerRay * delta)
+				dir += 1
 			else:
-				ray.applyDriveForce(global_transform.basis.z * -drivePerRay * delta)
+				dir -= 1
+		ray.applyDriveForce(dir * global_transform.basis.z * drivePerRay * delta)
 
 
 func _ready() -> void:
@@ -30,7 +32,7 @@ func _ready() -> void:
 		if node is RayCast:
 			rayElements.append(node)
 	drivePerRay = enginePower / rayElements.size()
-	print("Added ", rayElements.size(), " raycasts to vehicle, providing ", drivePerRay, " power each.") 
+	print("Found ", rayElements.size(), " raycasts connected to vehicle, setting to provide ", drivePerRay, " power each.") 
 	
 	
 func _physics_process(delta) -> void:

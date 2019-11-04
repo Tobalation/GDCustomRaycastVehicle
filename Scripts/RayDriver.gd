@@ -1,11 +1,13 @@
 extends RayCast
 
 # control variables
+export var maxForce : float = 500.0
 export var springForce : float = 80.0
 export var stifness : float = 0.8
 export var damping : float = 0.08
 export var Xtraction : float = 20.0
 export var Ztraction : float = 2.0
+export var counterSliding : bool = true
 
 # public variables
 var instantLinearVelocity : Vector3
@@ -28,10 +30,10 @@ func _ready() -> void:
 func _physics_process(delta) -> void:
 	# if grounded, handle forces
 	if is_colliding():
-		# obtain instantaneaous instantLinearVelocity
+		# obtain instantaneaous linear velocity
 		var curHit = get_collision_point()
 		instantLinearVelocity = (curHit - previousHit) / delta
-		# obtain axis instantLinearVelocity
+		# obtain axis velocity
 		var ZVelocity = global_transform.basis.xform_inv(instantLinearVelocity).z
 		var XVelocity = global_transform.basis.xform_inv(instantLinearVelocity).x
 		# axis deceleration forces
@@ -41,28 +43,29 @@ func _physics_process(delta) -> void:
 		var curDistance = (global_transform.origin - get_collision_point()).length()
 		var FSpring = stifness * (abs(cast_to.y) - curDistance) 
 		var FDamp = damping * (previousDistance - curDistance)/delta
-		var suspensionForce = clamp((FSpring + FDamp) * springForce,0,500)
+		var suspensionForce = clamp((FSpring + FDamp) * springForce,0,maxForce)
 		var suspensionImpulse = global_transform.basis.y * suspensionForce * delta
 		# final impulse force vector to be applied
 		var finalForce = suspensionImpulse + XForce + ZForce
 		
 		# negate suspension forces to stop sliding
 		# ref: https://github.com/shadowmage45/KSPWheel/blob/master/VSProject/KSPWheel/Component/KSPWheelCollider.cs
-		var gravNormDot = get_collision_normal().dot(Vector3.DOWN)
-		var uphillVec = (get_collision_normal().cross(Vector3.DOWN)).cross(get_collision_normal())
-		var slopeLatDot = uphillVec.dot(global_transform.basis.x)
-		var antiSlideForce = global_transform.basis.x * finalForce.y * gravNormDot * slopeLatDot
-		finalForce += antiSlideForce
-		
+		if counterSliding:
+			var gravNormDot = get_collision_normal().dot(Vector3.DOWN)
+			var uphillVec = (get_collision_normal().cross(Vector3.DOWN)).cross(get_collision_normal())
+			var slopeLatDot = uphillVec.dot(global_transform.basis.x)
+			var antiSlideForce = global_transform.basis.x * finalForce.y * gravNormDot * slopeLatDot
+			finalForce += antiSlideForce
+			if GameState.debugMode:
+				DrawLine3D.DrawRay(get_collision_point(),uphillVec,Color(0,0,0))
+				DrawLine3D.DrawRay(get_collision_point(),antiSlideForce,Color(255,255,255))
+			
 		# draw debug lines using the awesome DrawLine3D library
 		if GameState.debugMode:
 			DrawLine3D.DrawRay(get_collision_point(),suspensionImpulse,Color(0,255,0))
 			DrawLine3D.DrawRay(get_collision_point(),XForce,Color(255,0,0))
 			DrawLine3D.DrawRay(get_collision_point(),ZForce,Color(0,0,255))
 			
-			DrawLine3D.DrawRay(get_collision_point(),uphillVec,Color(0,0,0))
-			DrawLine3D.DrawRay(get_collision_point(),antiSlideForce,Color(255,255,255))
-		
 		# note that the point has to be xform()'ed to be at the correct location. Xform makes the pos global
 		parentBody.apply_impulse(parentBody.global_transform.basis.xform(parentBody.to_local(get_collision_point())),finalForce)
 		previousDistance = curDistance
@@ -70,4 +73,4 @@ func _physics_process(delta) -> void:
 	else:
 		# not grounded, set prev values to fully extended suspension
 		previousDistance = -cast_to.y
-		previousHit = global_transform.origin + cast_to
+		previousHit = to_global(cast_to)

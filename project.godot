@@ -32,7 +32,7 @@ window/dpi/allow_hidpi=true
 
 [editor_plugins]
 
-enabled=PoolStringArray( "PointCloudLoader" )
+enabled=PoolStringArray(  )
 
 [input]
 
