@@ -72,7 +72,9 @@ debug_key={
 
 [physics]
 
+common/physics_jitter_fix=1.0
 3d/physics_engine="Bullet"
+3d/active_soft_world=false
 
 [rendering]
 
