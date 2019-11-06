@@ -15,7 +15,7 @@ func _process(delta):
 script/source = "extends Label
 
 func _process(delta):
-	text = \"Physics (ms): \" + String((Performance.get_monitor(Performance.TIME_PHYSICS_PROCESS)))"
+	text = \"Physics frame time (ms): \" + String((Performance.get_monitor(Performance.TIME_PHYSICS_PROCESS ) * 1000))"
 
 [node name="gameRoot" type="Node"]
 script = ExtResource( 1 )
@@ -33,6 +33,7 @@ camZOffset = 2.0
 target = NodePath("../RaycastVehicle")
 
 [node name="DebugUI" type="Control" parent="."]
+editor/display_folded = true
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
