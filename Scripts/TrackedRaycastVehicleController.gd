@@ -8,28 +8,21 @@ var drivePerRay = enginePower
 func handleTankDrive(delta) -> void:
 	# skid steering (with neutral steer) setup
 	for ray in rayElements:
-		ray.braking = true
 		var dir = 0
 		if Input.is_action_pressed("ui_up"):
 			dir += 1
-			ray.braking = false
 		if Input.is_action_pressed("ui_down"):
 			dir -= 1
-			ray.braking = false
 		if Input.is_action_pressed("ui_left"):
 			if ray.transform.origin.x > 0: # ray is on the left side
 				dir -= 1
-				ray.braking = false
 			else:
 				dir += 1
-				ray.braking = false
 		if Input.is_action_pressed("ui_right"):
 			if ray.transform.origin.x > 0: # ray is on the left side
 				dir += 1
-				ray.braking = false
 			else:
 				dir -= 1
-				ray.braking = false
 		ray.applyDriveForce(dir * global_transform.basis.z * drivePerRay * delta)
 
 

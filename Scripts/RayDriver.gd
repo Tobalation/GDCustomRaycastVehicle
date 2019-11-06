@@ -7,10 +7,10 @@ export var stifness : float = 0.8
 export var damping : float = 0.08
 export var Xtraction : float = 1.0
 export var Ztraction : float = 0.1
+export var staticFrictionThreshold : float = 0.5
 
 # public variables
 var instantLinearVelocity : Vector3
-var braking : bool = false
 
 # private variables
 var parentBody : RigidBody
@@ -46,7 +46,7 @@ func _physics_process(delta) -> void:
 		var FDamp = damping * (previousDistance - curDistance)/delta
 		var suspensionForce = clamp((FSpring + FDamp) * springForce,0,maxForce)
 		var suspensionImpulse = global_transform.basis.y * suspensionForce * delta
-		if braking:
+		if parentBody.linear_velocity.length() < staticFrictionThreshold:
 			suspensionImpulse = Vector3.UP * suspensionForce * delta
 		# final impulse force vector to be applied
 		var finalForce = suspensionImpulse + XForce + ZForce
