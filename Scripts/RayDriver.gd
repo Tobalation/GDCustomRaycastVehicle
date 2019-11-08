@@ -1,12 +1,12 @@
 extends RayCast
 
 # control variables
-export var maxForce : float = 500.0
-export var springForce : float = 90.0
+export var maxForce : float = 800.0
+export var springForce : float = 100.0
 export var stifness : float = 0.95
-export var damping : float = 0.08
+export var damping : float = 0.1
 export var Xtraction : float = 1.0
-export var Ztraction : float = 0.1
+export var Ztraction : float = 0.15
 
 # public variables
 var instantLinearVelocity : Vector3
@@ -33,10 +33,10 @@ func _physics_process(delta) -> void:
 		var curHit = get_collision_point()
 		instantLinearVelocity = (curHit - previousHit) / delta
 		
-		# apply spring force with damping force, has very tiny jitter when near stable
-		var curDistance = (global_transform.origin - get_collision_point()).length()
+		# apply spring force with damping force
+		var curDistance = (global_transform.origin - get_collision_point()).y
 		var FSpring = stifness * (abs(cast_to.y) - curDistance) 
-		var FDamp = damping * (previousDistance - curDistance)/delta
+		var FDamp = damping * (previousDistance - curDistance) / delta
 		var suspensionForce = clamp((FSpring + FDamp) * springForce,0,maxForce)
 		var suspensionImpulse = global_transform.basis.y * suspensionForce * delta
 		

@@ -1,8 +1,10 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Materials/Green.tres" type="Material" id=1]
-[ext_resource path="res://Materials/Grey.tres" type="Material" id=2]
+[ext_resource path="res://Materials/hull.tres" type="Material" id=1]
+[ext_resource path="res://Materials/wheel.tres" type="Material" id=2]
 [ext_resource path="res://BlenderFiles/tank_track.png" type="Texture" id=3]
+
+
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Hull"
@@ -65,6 +67,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=5]
+flags_transparent = true
 albedo_color = Color( 0.588235, 0.588235, 0.588235, 1 )
 albedo_texture = ExtResource( 3 )
 
@@ -83,6 +86,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=7]
+flags_transparent = true
 albedo_color = Color( 0.588235, 0.588235, 0.588235, 1 )
 albedo_texture = ExtResource( 3 )
 
