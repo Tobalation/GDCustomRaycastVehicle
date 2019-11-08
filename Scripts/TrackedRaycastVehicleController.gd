@@ -5,6 +5,9 @@ export var enginePower : float = 300.0
 var rayElements = []
 var drivePerRay = enginePower
 
+var leftTrackMat : SpatialMaterial
+var rightTrackMat : SpatialMaterial
+
 func handleTankDrive(delta) -> void:
 	# skid steering (with neutral steer) setup
 	for ray in rayElements:
@@ -27,6 +30,8 @@ func handleTankDrive(delta) -> void:
 
 
 func _ready() -> void:
+	leftTrackMat = $Visuals/TrackArmatureL/TrackL.mesh.surface_get_material(0)
+	rightTrackMat = $Visuals/TrackArmatureR/TrackR.mesh.surface_get_material(0)
 	# setup array of drive elements and setup drive power
 	for node in get_children():
 		if node is RayCast:

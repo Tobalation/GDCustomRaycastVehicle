@@ -2,8 +2,8 @@ extends RayCast
 
 # control variables
 export var maxForce : float = 500.0
-export var springForce : float = 80.0
-export var stifness : float = 0.8
+export var springForce : float = 90.0
+export var stifness : float = 0.95
 export var damping : float = 0.08
 export var Xtraction : float = 1.0
 export var Ztraction : float = 0.1

@@ -153,7 +153,7 @@ shape = SubResource( 13 )
 
 [node name="ramp5" type="MeshInstance" parent="."]
 editor/display_folded = true
-transform = Transform( -4.35451e-008, -0.0871556, 0.996195, 3.8097e-009, 0.996195, 0.0871556, -1, 7.59041e-009, -4.30473e-008, -47, 1, 44 )
+transform = Transform( -4.35451e-008, -0.0871556, 0.996195, 3.8097e-009, 0.996195, 0.0871556, -1, 7.59041e-009, -4.30473e-008, -47, 0.530016, 44 )
 mesh = SubResource( 11 )
 material/0 = SubResource( 12 )
 
@@ -187,7 +187,7 @@ shape = SubResource( 13 )
 
 [node name="ramp3" type="MeshInstance" parent="."]
 editor/display_folded = true
-transform = Transform( 1, 0, 0, 0, 0.819152, 0.573577, 0, -0.573577, 0.819152, 45, 1, 4 )
+transform = Transform( 1, 0, 0, 0, 0.819152, 0.573577, 0, -0.573577, 0.819152, 45, 1, 8 )
 mesh = SubResource( 11 )
 material/0 = SubResource( 12 )
 
