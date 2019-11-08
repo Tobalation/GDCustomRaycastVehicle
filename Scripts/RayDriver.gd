@@ -1,10 +1,10 @@
 extends RayCast
 
 # control variables
-export var maxForce : float = 800.0
-export var springForce : float = 100.0
-export var stifness : float = 0.95
-export var damping : float = 0.1
+export var maxForce : float = 300.0
+export var springForce : float = 180.0
+export var stifness : float = 0.85
+export var damping : float = 0.05
 export var Xtraction : float = 1.0
 export var Ztraction : float = 0.15
 
@@ -34,7 +34,7 @@ func _physics_process(delta) -> void:
 		instantLinearVelocity = (curHit - previousHit) / delta
 		
 		# apply spring force with damping force
-		var curDistance = (global_transform.origin - get_collision_point()).y
+		var curDistance = (global_transform.origin - get_collision_point()).length()
 		var FSpring = stifness * (abs(cast_to.y) - curDistance) 
 		var FDamp = damping * (previousDistance - curDistance) / delta
 		var suspensionForce = clamp((FSpring + FDamp) * springForce,0,maxForce)
@@ -49,8 +49,8 @@ func _physics_process(delta) -> void:
 		var ZForce = -global_transform.basis.z * ZVelocity * (parentBody.weight * parentBody.gravity_scale)/parentBody.rayElements.size() * Ztraction * delta
 		
 		# counter sliding by negating off axis suspension impulse
-		XForce.x -= suspensionImpulse.x
-		ZForce.z -= suspensionImpulse.z
+		XForce.x -= suspensionImpulse.x * parentBody.global_transform.basis.y.dot(Vector3.UP)
+		ZForce.z -= suspensionImpulse.z * parentBody.global_transform.basis.y.dot(Vector3.UP)
 		
 		# final impulse force vector to be applied
 		var finalForce = suspensionImpulse + XForce + ZForce
