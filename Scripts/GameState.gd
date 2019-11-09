@@ -2,12 +2,12 @@ extends Node
 
 # global vars
 var mouseHidden : bool = true
-var debugMode : bool = true
+var debugMode : bool = false
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-func _input(event):
+func _input(event) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		if mouseHidden == true:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

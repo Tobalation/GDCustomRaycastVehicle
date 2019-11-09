@@ -1,11 +1,12 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scripts/TrackedRaycastVehicleController.gd" type="Script" id=1]
 [ext_resource path="res://Materials/hull.tres" type="Material" id=2]
 [ext_resource path="res://Materials/wheel.tres" type="Material" id=3]
-[ext_resource path="res://Scripts/WheelAnimator.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/SuspensionAnimator.gd" type="Script" id=4]
 [ext_resource path="res://BlenderFiles/tank_track.png" type="Texture" id=5]
-[ext_resource path="res://Scripts/RayDriver.gd" type="Script" id=6]
+[ext_resource path="res://Scripts/TrackAnimator.gd" type="Script" id=6]
+[ext_resource path="res://Scripts/RaycastDriver.gd" type="Script" id=7]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Hull"
@@ -220,6 +221,13 @@ bones/5/bound_children = [  ]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.38419e-007, -0.266667, 0 )
 mesh = SubResource( 6 )
 material/0 = null
+script = ExtResource( 6 )
+roadWheelPaths = [ NodePath("../../RoadWheelL1"), NodePath("../../RoadWheelL2"), NodePath("../../RoadWheelL3"), NodePath("../../RoadWheelL4"), NodePath("../../RoadWheelL5") ]
+sprocketPath = NodePath("../../DriveSprocketL")
+idlerPath = NodePath("../../IdlerL")
+FrontChkRayPath = NodePath("../../../Lray1")
+RearChkRayPath = NodePath("../../../Lray5")
+parentBodyPath = NodePath("../../..")
 
 [node name="RoadWheelR1" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, 1.6 )
@@ -314,6 +322,13 @@ bones/5/bound_children = [  ]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.38419e-007, -0.266667, 0 )
 mesh = SubResource( 8 )
 material/0 = null
+script = ExtResource( 6 )
+roadWheelPaths = [ NodePath("../../RoadWheelR1"), NodePath("../../RoadWheelR2"), NodePath("../../RoadWheelR3"), NodePath("../../RoadWheelR4"), NodePath("../../RoadWheelR5") ]
+sprocketPath = NodePath("../../DriveSprocketR")
+idlerPath = NodePath("../../IdlerR")
+FrontChkRayPath = NodePath("../../../Rray1")
+RearChkRayPath = NodePath("../../../Rray5")
+parentBodyPath = NodePath("../../..")
 
 [node name="UpperHull" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -0.3 )
@@ -327,58 +342,58 @@ shape = SubResource( 10 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, 1.6 )
 enabled = true
 cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="Lray2" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, 0.8 )
 enabled = true
 cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="Lray3" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, 0 )
 enabled = true
 cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="Lray4" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, -0.8 )
 enabled = true
 cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="Lray5" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, -1.6 )
 enabled = true
 cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="Rray1" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, 1.6 )
 enabled = true
 cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="Rray2" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, 0.8 )
 enabled = true
 cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="Rray3" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, 0 )
 enabled = true
 cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="Rray4" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, -0.8 )
 enabled = true
 cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="Rray5" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, -1.6 )
 enabled = true
 cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 6 )
+script = ExtResource( 7 )
