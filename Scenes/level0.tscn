@@ -28,12 +28,11 @@ gravity_scale = 2.0
 linear_damp = 0.1
 
 [node name="CameraRig" parent="." instance=ExtResource( 4 )]
-transform = Transform( -1, 0, -8.74228e-008, 0, 1, 0, 8.74228e-008, 0, -1, 0, 4, 0 )
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 4, 0 )
 camZOffset = 2.0
 target = NodePath("../RaycastVehicle")
 
 [node name="DebugUI" type="Control" parent="."]
-editor/display_folded = true
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0

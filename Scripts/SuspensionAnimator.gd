@@ -31,4 +31,4 @@ func _physics_process(delta) -> void:
 	# deform the track based on wheel position
 	var tbonePos = trackSkeleton.get_bone_global_pose(trackBone)
 	tbonePos.origin = trackSkeleton.global_transform.xform_inv(global_transform.origin + trackOffset)
-	trackSkeleton.set_bone_global_pose(trackBone, tbonePos)
+	trackSkeleton.set_bone_global_pose_override(trackBone, tbonePos,1.0)
