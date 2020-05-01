@@ -21,8 +21,8 @@ config/icon="res://icon.png"
 
 [autoload]
 
-GameState="*res://Scripts/GameState.gd"
-DrawLine3D="*res://Scripts/DrawLine3D.gd"
+GameState="*res://Scripts/Singletions/GameState.gd"
+DrawLine3D="*res://Scripts/Singletions/DrawLine3D.gd"
 
 [display]
 
