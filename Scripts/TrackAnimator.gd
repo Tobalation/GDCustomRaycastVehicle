@@ -4,8 +4,6 @@ extends MeshInstance
 export var roadWheelPaths : Array
 export(NodePath) var sprocketPath
 export(NodePath) var idlerPath
-export(NodePath) var FrontChkRayPath
-export(NodePath) var RearChkRayPath
 export(NodePath) var parentBodyPath
 export var wheelSpeedScaling : float = 1.0
 export var sprocketSpeedScaling : float = 1.6
@@ -17,8 +15,6 @@ var roadWheels : Array
 var sprocket : MeshInstance
 var idler : MeshInstance
 var trackMat : SpatialMaterial
-var FrontChkRay : RayCast
-var RearChkRay : RayCast
 var parentBody : RigidBody
 var lastPos : Vector3 = Vector3()
 
@@ -29,8 +25,6 @@ func _ready() -> void:
 	for wheel in roadWheelPaths:
 		roadWheels.append(get_node(wheel))
 	trackMat = mesh.surface_get_material(0)
-	FrontChkRay = get_node(FrontChkRayPath)
-	RearChkRay = get_node(RearChkRayPath)
 	parentBody = get_node(parentBodyPath)
 
 func _physics_process(delta) -> void:

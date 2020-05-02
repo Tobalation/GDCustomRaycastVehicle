@@ -32,7 +32,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -6 )
 
 [node name="CameraRig" parent="." instance=ExtResource( 4 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 5, -6 )
-camYOffset = 3.0
+camYOffset = 4.0
 target = NodePath("../VBL")
 
 [node name="DebugUI" type="Control" parent="."]

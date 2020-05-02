@@ -1,4 +1,7 @@
 # Custom Raycast based vehicle implementation for Godot 3.x
+
+![icon](https://github.com/Tobalation/RaycastVehicleTest/blob/master/icon.png)
+
 A custom raycast vehicle implementation emphasizing simplicity and adaptability.
 
 The raycast elements serve as a basis for any type of land vehicle that needs to be suspended by "springs" and propelled

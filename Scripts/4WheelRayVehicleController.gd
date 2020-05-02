@@ -2,7 +2,6 @@ extends RigidBody
 
 # control variables
 export var enginePower : float = 280.0
-export var engineSpeedScaleFac : float = 60.0
 export var steeringAngle : float = 20.0
 # currently, raycast driver expects this array to exist in the controller script
 var rayElements : Array = []
