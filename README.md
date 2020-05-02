@@ -17,7 +17,8 @@ Currently, two different sample vehicles are provided:
 
 2. A 4 wheel drive vehicle with 4 raycasts (1 per wheel) with traditional car steering.
 
-The default scene that is played is the tracked vehicle. You can play each individual test scene using F6 to test them out.
+The default scene is the tracked vehicle. You can switch to the other vehicle by pressing escape to unlock the mouse
+and clicking on the 'Change to 4WD vehicle' button.
 
 ## What about the 3rd person orbit camera?
 The orbit camera used in this project is another example of mine, it can be found [here.](https://github.com/Tobalation/Godot-orbit-camera)
