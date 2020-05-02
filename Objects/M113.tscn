@@ -1,8 +1,8 @@
 [gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Scripts/TrackedRaycastVehicleController.gd" type="Script" id=1]
-[ext_resource path="res://Materials/hull.tres" type="Material" id=2]
-[ext_resource path="res://Materials/wheel.tres" type="Material" id=3]
+[ext_resource path="res://Materials/GreySteel.material" type="Material" id=2]
+[ext_resource path="res://Materials/GreenSteel.material" type="Material" id=3]
 [ext_resource path="res://Scripts/SuspensionAnimator.gd" type="Script" id=4]
 [ext_resource path="res://BlenderFiles/tank_track.png" type="Texture" id=5]
 [ext_resource path="res://Scripts/TrackAnimator.gd" type="Script" id=6]
@@ -19,7 +19,7 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97559,
 "index_count": 1014,
-"material": ExtResource( 2 ),
+"material": ExtResource( 3 ),
 "primitive": 4,
 "skeleton_aabb": [  ],
 "vertex_count": 884
@@ -33,7 +33,7 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97559,
 "index_count": 564,
-"material": ExtResource( 3 ),
+"material": ExtResource( 2 ),
 "primitive": 4,
 "skeleton_aabb": [  ],
 "vertex_count": 550
@@ -47,7 +47,7 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97559,
 "index_count": 180,
-"material": ExtResource( 3 ),
+"material": ExtResource( 2 ),
 "primitive": 4,
 "skeleton_aabb": [  ],
 "vertex_count": 152
@@ -61,7 +61,7 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97559,
 "index_count": 180,
-"material": ExtResource( 3 ),
+"material": ExtResource( 2 ),
 "primitive": 4,
 "skeleton_aabb": [  ],
 "vertex_count": 170
@@ -107,7 +107,7 @@ surfaces/0 = {
 "vertex_count": 1132
 }
 
-[node name="RaycastVehicle" type="RigidBody"]
+[node name="M113" type="RigidBody"]
 mass = 10.0
 can_sleep = false
 linear_damp = 0.2
@@ -131,8 +131,8 @@ mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
 boneName = "wheel1"
-raycastPath = NodePath("../../Lray1")
-trackSkeletonPath = NodePath("../TrackArmatureL")
+raycastPath = NodePath("../../../M113/Lray1")
+trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
 
 [node name="RoadWheelL2" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, 0.8 )
@@ -140,8 +140,8 @@ mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
 boneName = "wheel2"
-raycastPath = NodePath("../../Lray2")
-trackSkeletonPath = NodePath("../TrackArmatureL")
+raycastPath = NodePath("../../../M113/Lray2")
+trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
 
 [node name="RoadWheelL3" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, 0 )
@@ -149,8 +149,8 @@ mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
 boneName = "wheel3"
-raycastPath = NodePath("../../Lray3")
-trackSkeletonPath = NodePath("../TrackArmatureL")
+raycastPath = NodePath("../../../M113/Lray3")
+trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
 
 [node name="RoadWheelL4" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, -0.8 )
@@ -158,8 +158,8 @@ mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
 boneName = "wheel4"
-raycastPath = NodePath("../../Lray4")
-trackSkeletonPath = NodePath("../TrackArmatureL")
+raycastPath = NodePath("../../../M113/Lray4")
+trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
 
 [node name="RoadWheelL5" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, -1.6 )
@@ -167,8 +167,8 @@ mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
 boneName = "wheel5"
-raycastPath = NodePath("../../Lray5")
-trackSkeletonPath = NodePath("../TrackArmatureL")
+raycastPath = NodePath("../../../M113/Lray5")
+trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
 
 [node name="DriveSprocketL" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.41, 2.275 )
@@ -219,11 +219,11 @@ mesh = SubResource( 7 )
 material/0 = null
 script = ExtResource( 6 )
 roadWheelPaths = [ NodePath("../../RoadWheelL1"), NodePath("../../RoadWheelL2"), NodePath("../../RoadWheelL3"), NodePath("../../RoadWheelL4"), NodePath("../../RoadWheelL5") ]
-sprocketPath = NodePath("../../DriveSprocketL")
-idlerPath = NodePath("../../IdlerL")
-FrontChkRayPath = NodePath("../../../Lray1")
-RearChkRayPath = NodePath("../../../Lray5")
-parentBodyPath = NodePath("../../..")
+sprocketPath = NodePath("../../../../M113/Visuals/DriveSprocketL")
+idlerPath = NodePath("../../../../M113/Visuals/IdlerL")
+FrontChkRayPath = NodePath("../../../../M113/Lray1")
+RearChkRayPath = NodePath("../../../../M113/Lray5")
+parentBodyPath = NodePath("../../../../M113")
 
 [node name="RoadWheelR1" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, 1.6 )
@@ -231,8 +231,8 @@ mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
 boneName = "wheel1"
-raycastPath = NodePath("../../Rray1")
-trackSkeletonPath = NodePath("../TrackArmatureR")
+raycastPath = NodePath("../../../M113/Rray1")
+trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
 
 [node name="RoadWheelR2" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, 0.8 )
@@ -240,8 +240,8 @@ mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
 boneName = "wheel2"
-raycastPath = NodePath("../../Rray2")
-trackSkeletonPath = NodePath("../TrackArmatureR")
+raycastPath = NodePath("../../../M113/Rray2")
+trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
 
 [node name="RoadWheelR3" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, 0 )
@@ -249,8 +249,8 @@ mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
 boneName = "wheel3"
-raycastPath = NodePath("../../Rray3")
-trackSkeletonPath = NodePath("../TrackArmatureR")
+raycastPath = NodePath("../../../M113/Rray3")
+trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
 
 [node name="RoadWheelR4" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, -0.8 )
@@ -258,8 +258,8 @@ mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
 boneName = "wheel4"
-raycastPath = NodePath("../../Rray4")
-trackSkeletonPath = NodePath("../TrackArmatureR")
+raycastPath = NodePath("../../../M113/Rray4")
+trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
 
 [node name="RoadWheelR5" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, -1.6 )
@@ -267,8 +267,8 @@ mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
 boneName = "wheel5"
-raycastPath = NodePath("../../Rray5")
-trackSkeletonPath = NodePath("../TrackArmatureR")
+raycastPath = NodePath("../../../M113/Rray5")
+trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
 
 [node name="DriveSprocketR" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.41, 2.275 )
@@ -319,11 +319,11 @@ mesh = SubResource( 9 )
 material/0 = null
 script = ExtResource( 6 )
 roadWheelPaths = [ NodePath("../../RoadWheelR1"), NodePath("../../RoadWheelR2"), NodePath("../../RoadWheelR3"), NodePath("../../RoadWheelR4"), NodePath("../../RoadWheelR5") ]
-sprocketPath = NodePath("../../DriveSprocketR")
-idlerPath = NodePath("../../IdlerR")
-FrontChkRayPath = NodePath("../../../Rray1")
-RearChkRayPath = NodePath("../../../Rray5")
-parentBodyPath = NodePath("../../..")
+sprocketPath = NodePath("../../../../M113/Visuals/DriveSprocketR")
+idlerPath = NodePath("../../../../M113/Visuals/IdlerR")
+FrontChkRayPath = NodePath("../../../../M113/Rray1")
+RearChkRayPath = NodePath("../../../../M113/Rray5")
+parentBodyPath = NodePath("../../../../M113")
 
 [node name="Lray1" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, 1.6 )

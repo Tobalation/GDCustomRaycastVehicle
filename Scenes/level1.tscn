@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scripts/Singletions/GameState.gd" type="Script" id=1]
 [ext_resource path="res://Objects/TestLevel.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Objects/M113.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Objects/VBL.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/CameraRig.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Objects/VehicleManager.tscn" type="PackedScene" id=5]
 
@@ -23,18 +23,17 @@ func _process(delta):
 script = ExtResource( 1 )
 
 [node name="VehicleManager" parent="." instance=ExtResource( 5 )]
-vehiclePath = NodePath("../M113")
+vehiclePath = NodePath("../VBL")
 
 [node name="TestLevel" parent="." instance=ExtResource( 2 )]
 
-[node name="M113" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36716, -6 )
-gravity_scale = 2.0
-linear_damp = 0.1
+[node name="VBL" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -6 )
 
 [node name="CameraRig" parent="." instance=ExtResource( 4 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3, 5, -6 )
-target = NodePath("../M113")
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 5, -6 )
+camYOffset = 3.0
+target = NodePath("../VBL")
 
 [node name="DebugUI" type="Control" parent="."]
 anchor_left = 1.0
@@ -43,9 +42,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -1280.0
 margin_top = -720.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Hint" type="Label" parent="DebugUI"]
 margin_left = 20.0

@@ -3,6 +3,7 @@ extends RigidBody
 # control variables
 export var enginePower : float = 280.0
 export var engineSpeedScaleFac : float = 60.0
+# currently, raycast driver expects this array to exist in the controller script
 var rayElements : Array = []
 var drivePerRay : float = enginePower
 	
@@ -32,7 +33,7 @@ func _ready() -> void:
 		if node is RayCast:
 			rayElements.append(node)
 	drivePerRay = enginePower / rayElements.size()
-	print("Found ", rayElements.size(), " raycasts connected to vehicle, setting to provide ", drivePerRay, " power each.") 
+	print("Found ", rayElements.size(), " raycasts connected to tracked vehicle, setting to provide ", drivePerRay, " power each.") 
 	
 func _physics_process(delta) -> void:
 	handleTankDrive(delta)
