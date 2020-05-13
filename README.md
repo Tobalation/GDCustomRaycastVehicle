@@ -4,6 +4,8 @@
 
 A custom raycast vehicle implementation emphasizing simplicity and adaptability.
 
+**There is now an [experimental branch](https://github.com/Tobalation/GDCustomRaycastVehicle/tree/sphere-cast) that uses _sphere casting_ instead.**
+
 The raycast elements serve as a basis for any type of land vehicle that needs to be suspended by "springs" and propelled
 using driving force applied against the ground.
 
