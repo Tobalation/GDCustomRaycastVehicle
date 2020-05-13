@@ -8,14 +8,19 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Spatial",
+"class": "DriveElement",
+"language": "GDScript",
+"path": "res://Scripts/DriveElementController.gd"
+} ]
 _global_script_class_icons={
-
+"DriveElement": ""
 }
 
 [application]
 
-config/name="RaycastVehicleTest"
+config/name="GDCustomRaycastVehicle"
 run/main_scene="res://Scenes/level0.tscn"
 config/icon="res://icon.png"
 

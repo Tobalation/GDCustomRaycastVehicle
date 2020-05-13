@@ -6,8 +6,8 @@ export var steeringAngle : float = 20.0
 # currently, raycast driver expects this array to exist in the controller script
 var rayElements : Array = []
 var drivePerRay : float = enginePower
-var frontRightWheel : RayCast
-var frontLeftWheel : RayCast
+var frontRightWheel
+var frontLeftWheel
 	
 func handle4WheelDrive(delta) -> void:
 	# 4WD with front wheel steering
@@ -37,7 +37,7 @@ func _ready() -> void:
 	
 	# setup array of drive elements and setup drive power
 	for node in get_children():
-		if node is RayCast:
+		if node is DriveElement:
 			rayElements.append(node)
 	drivePerRay = enginePower / rayElements.size()
 	print("Found ", rayElements.size(), " raycasts connected to wheeled vehicle, setting to provide ", drivePerRay, " power each.") 

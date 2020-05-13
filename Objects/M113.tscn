@@ -6,7 +6,7 @@
 [ext_resource path="res://Scripts/SuspensionAnimator.gd" type="Script" id=4]
 [ext_resource path="res://BlenderFiles/tank_track.png" type="Texture" id=5]
 [ext_resource path="res://Scripts/TrackAnimator.gd" type="Script" id=6]
-[ext_resource path="res://Scripts/RaycastDriver.gd" type="Script" id=7]
+[ext_resource path="res://Objects/DriveElement.tscn" type="PackedScene" id=8]
 
 [sub_resource type="ConvexPolygonShape" id=1]
 points = PoolVector3Array( -2.03635, 0.545582, 2.51138, -1.97657, 0.772071, -3.0045, -1.97628, 1.40669, -3.14553, -1.97192, 1.96901, 1.71771, -1.9601, 1.68366, -3.12242, -1.9564, 0.774951, 2.40003, -1.95386, 0.705469, -2.90377, -1.94749, 1.95767, -2.75653, -1.89292, 2, -2.55339, -1.89292, 2, 1.56816, -1.25032, 0.151707, -2.2672, -1.24, 0.227904, 2.22358, -1.19501, 0, 1.99536, -1.19053, 0.00395913, -2.0033, -1.11052, 1.95573, 1.82661, -1.04883, 1.89258, 1.913, -1.04865, 0.914521, 2.47194, 0.140344, 0.629422, 2.50776, 1.04725, 0.914521, 2.47194, 1.04739, 1.89275, 1.9129, 1.10931, 1.95619, 1.82772, 1.16189, 1.78095, -3.15848, 1.18875, 0.00395913, -2.0033, 1.19324, 0, 1.99536, 1.24, 0.226718, 2.22724, 1.24854, 0.151707, -2.2672, 1.27059, 2.11387, 1.51331, 1.55331, 2.11387, 1.23059, 1.89154, 2, -2.55386, 1.89154, 2, 1.56856, 1.94571, 1.95767, -2.75653, 1.95208, 0.705469, -2.90377, 1.95462, 0.774951, 2.40003, 1.95832, 1.68366, -3.12242, 1.97014, 1.96901, 1.71771, 1.9745, 1.40669, -3.14553, 1.9748, 0.772071, -3.0045, 2.03457, 0.545582, 2.51138 )
@@ -113,6 +113,7 @@ can_sleep = false
 linear_damp = 0.2
 angular_damp = 0.8
 script = ExtResource( 1 )
+enginePower = 350.0
 
 [node name="HullShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
@@ -130,6 +131,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, 1.6 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
+wheelOffset = Vector3( 0, 0.35, 0 )
+trackThickness = 0.05
 boneName = "wheel1"
 raycastPath = NodePath("../../../M113/Lray1")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
@@ -139,6 +142,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, 0.8 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
+wheelOffset = Vector3( 0, 0.35, 0 )
 boneName = "wheel2"
 raycastPath = NodePath("../../../M113/Lray2")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
@@ -148,6 +152,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, 0 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
+wheelOffset = Vector3( 0, 0.35, 0 )
 boneName = "wheel3"
 raycastPath = NodePath("../../../M113/Lray3")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
@@ -157,6 +162,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, -0.8 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
+wheelOffset = Vector3( 0, 0.35, 0 )
 boneName = "wheel4"
 raycastPath = NodePath("../../../M113/Lray4")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
@@ -166,6 +172,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, -1.6 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
+wheelOffset = Vector3( 0, 0.35, 0 )
 boneName = "wheel5"
 raycastPath = NodePath("../../../M113/Lray5")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
@@ -221,8 +228,6 @@ script = ExtResource( 6 )
 roadWheelPaths = [ NodePath("../../RoadWheelL1"), NodePath("../../RoadWheelL2"), NodePath("../../RoadWheelL3"), NodePath("../../RoadWheelL4"), NodePath("../../RoadWheelL5") ]
 sprocketPath = NodePath("../../../../M113/Visuals/DriveSprocketL")
 idlerPath = NodePath("../../../../M113/Visuals/IdlerL")
-FrontChkRayPath = NodePath("../../../../M113/Lray1")
-RearChkRayPath = NodePath("../../../../M113/Lray5")
 parentBodyPath = NodePath("../../../../M113")
 
 [node name="RoadWheelR1" type="MeshInstance" parent="Visuals"]
@@ -230,6 +235,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, 1.6 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
+wheelOffset = Vector3( 0, 0.35, 0 )
 boneName = "wheel1"
 raycastPath = NodePath("../../../M113/Rray1")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
@@ -239,6 +245,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, 0.8 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
+wheelOffset = Vector3( 0, 0.35, 0 )
 boneName = "wheel2"
 raycastPath = NodePath("../../../M113/Rray2")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
@@ -248,6 +255,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, 0 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
+wheelOffset = Vector3( 0, 0.35, 0 )
 boneName = "wheel3"
 raycastPath = NodePath("../../../M113/Rray3")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
@@ -257,6 +265,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, -0.8 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
+wheelOffset = Vector3( 0, 0.35, 0 )
 boneName = "wheel4"
 raycastPath = NodePath("../../../M113/Rray4")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
@@ -266,6 +275,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, -1.6 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
+wheelOffset = Vector3( 0, 0.35, 0 )
 boneName = "wheel5"
 raycastPath = NodePath("../../../M113/Rray5")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
@@ -321,66 +331,54 @@ script = ExtResource( 6 )
 roadWheelPaths = [ NodePath("../../RoadWheelR1"), NodePath("../../RoadWheelR2"), NodePath("../../RoadWheelR3"), NodePath("../../RoadWheelR4"), NodePath("../../RoadWheelR5") ]
 sprocketPath = NodePath("../../../../M113/Visuals/DriveSprocketR")
 idlerPath = NodePath("../../../../M113/Visuals/IdlerR")
-FrontChkRayPath = NodePath("../../../../M113/Rray1")
-RearChkRayPath = NodePath("../../../../M113/Rray5")
 parentBodyPath = NodePath("../../../../M113")
 
-[node name="Lray1" type="RayCast" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, 1.6 )
-enabled = true
-cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 7 )
+[node name="Lray1" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.61, 0.3, 1.6 )
+castTo = Vector3( 0, -0.4, 0 )
+radius = 0.3
 
-[node name="Lray2" type="RayCast" parent="."]
+[node name="Lray2" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, 0.8 )
-enabled = true
-cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 7 )
+castTo = Vector3( 0, -0.4, 0 )
+radius = 0.3
 
-[node name="Lray3" type="RayCast" parent="."]
+[node name="Lray3" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, 0 )
-enabled = true
-cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 7 )
+castTo = Vector3( 0, -0.4, 0 )
+radius = 0.3
 
-[node name="Lray4" type="RayCast" parent="."]
+[node name="Lray4" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, -0.8 )
-enabled = true
-cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 7 )
+castTo = Vector3( 0, -0.4, 0 )
+radius = 0.3
 
-[node name="Lray5" type="RayCast" parent="."]
+[node name="Lray5" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, -1.6 )
-enabled = true
-cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 7 )
+castTo = Vector3( 0, -0.4, 0 )
+radius = 0.3
 
-[node name="Rray1" type="RayCast" parent="."]
+[node name="Rray1" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, 1.6 )
-enabled = true
-cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 7 )
+castTo = Vector3( 0, -0.4, 0 )
+radius = 0.3
 
-[node name="Rray2" type="RayCast" parent="."]
+[node name="Rray2" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, 0.8 )
-enabled = true
-cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 7 )
+castTo = Vector3( 0, -0.4, 0 )
+radius = 0.3
 
-[node name="Rray3" type="RayCast" parent="."]
+[node name="Rray3" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, 0 )
-enabled = true
-cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 7 )
+castTo = Vector3( 0, -0.4, 0 )
+radius = 0.3
 
-[node name="Rray4" type="RayCast" parent="."]
+[node name="Rray4" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, -0.8 )
-enabled = true
-cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 7 )
+castTo = Vector3( 0, -0.4, 0 )
+radius = 0.3
 
-[node name="Rray5" type="RayCast" parent="."]
+[node name="Rray5" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, -1.6 )
-enabled = true
-cast_to = Vector3( 0, -0.65, 0 )
-script = ExtResource( 7 )
+castTo = Vector3( 0, -0.4, 0 )
+radius = 0.3

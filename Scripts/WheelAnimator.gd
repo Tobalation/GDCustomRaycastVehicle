@@ -6,7 +6,7 @@ export var wheelSpeedScaling : float = 1.0
 export var returnSpeed : float = 8.0
 
 # private variables
-var wheelRay : RayCast
+var wheelRay
 var lastPos : Vector3 = Vector3()
 
 func _ready() -> void:
@@ -26,4 +26,4 @@ func _physics_process(delta) -> void:
 	if wheelRay.is_colliding():
 		transform.origin.y = (wheelRay.to_local(wheelRay.get_collision_point()) + wheelOffset).y
 	else:
-		transform.origin.y = lerp(transform.origin.y, (wheelRay.cast_to + wheelOffset).y, returnSpeed * delta)
+		transform.origin.y = lerp(transform.origin.y, (wheelRay.castTo + wheelOffset).y, returnSpeed * delta)

@@ -30,10 +30,10 @@ func handleTankDrive(delta) -> void:
 func _ready() -> void:
 	# setup array of drive elements and setup drive power
 	for node in get_children():
-		if node is RayCast:
+		if node is DriveElement:
 			rayElements.append(node)
 	drivePerRay = enginePower / rayElements.size()
-	print("Found ", rayElements.size(), " raycasts connected to tracked vehicle, setting to provide ", drivePerRay, " power each.") 
+	print("Found ", rayElements.size(), " DriveElements connected to tracked vehicle, setting to provide ", drivePerRay, " power each.") 
 	
 func _physics_process(delta) -> void:
 	handleTankDrive(delta)
