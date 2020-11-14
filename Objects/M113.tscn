@@ -132,7 +132,6 @@ mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
 wheelOffset = Vector3( 0, 0.35, 0 )
-trackThickness = 0.05
 boneName = "wheel1"
 raycastPath = NodePath("../../../M113/Lray1")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")

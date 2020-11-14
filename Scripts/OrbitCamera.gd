@@ -44,7 +44,7 @@ func _input(event) -> void:
 				_curZoom += zoomStep
 				camYOffset += zoomYStep
 
-func _physics_process(delta) -> void:
+func _process(delta) -> void:
 	# zoom the camera accordingly
 	_cam.set_translation(_cam.translation.linear_interpolate(Vector3(0,camYOffset,_curZoom),delta * camLerpSpeed))
 	# set the position of the rig to follow the target

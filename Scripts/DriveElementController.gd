@@ -75,13 +75,16 @@ func _ready() -> void:
 func _physics_process(delta) -> void:
 	# perform sphere cast
 	var castResult = sphere_cast(global_transform.origin, castTo, radius)
+	if GameState.debugMode:
+		DrawLine3D.DrawCube(global_transform.origin,radius,Color(255,0,255))
+		DrawLine3D.DrawCube(global_transform.origin + castTo,radius,Color(255,0,255))
 	# [1, 1] means no hit (from docs)
 	if castResult.hit_distance != abs(castTo.y):
 		# if grounded, handle forces
 		grounded = true
 		collisionPoint = castResult.hit_position
 		if GameState.debugMode:
-			DrawLine3D.DrawCube(castResult.hit_position,0.05,Color(255,255,255))
+			DrawLine3D.DrawCube(castResult.hit_position,0.04,Color(0,255,255))
 			DrawLine3D.DrawRay(castResult.hit_position,castResult.hit_normal,Color(0,0,0))
 		
 		# obtain instantaneaous linear velocity
