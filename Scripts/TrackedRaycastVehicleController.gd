@@ -25,7 +25,7 @@ func handleTankDrive(delta) -> void:
 				dir += 1
 			else:
 				dir -= 1
-		ray.applyDriveForce(dir * global_transform.basis.z * drivePerRay * delta)
+		ray.applyDriveForce(dir * global_transform.basis.z * drivePerRay)
 
 func _ready() -> void:
 	# setup array of drive elements and setup drive power

@@ -2,8 +2,10 @@ extends RigidBody
 
 # control variables
 export(float) var enginePower : float = 280.0
-export(float) var steeringAngle : float = 20.0
+export(float) var steeringAngle : float = 45.0
 export(float) var steerSpeed : float = 1.0
+export(float) var wheelReturnSpeed : float = 4.0
+export(float) var acceleration : float = 0.25
 
 # currently, raycast driver expects this array to exist in the controller script
 var rayElements : Array = []
@@ -11,6 +13,7 @@ var drivePerRay : float = enginePower
 var frontRightWheel : Spatial
 var frontLeftWheel : Spatial
 
+var currentDrivePower : float = 0.0
 var currentSteerAngle : float = 0.0
 
 func handle4WheelDrive(delta) -> void:
@@ -28,16 +31,23 @@ func handle4WheelDrive(delta) -> void:
 		# if input provided, steer
 		if Input.is_action_pressed("ui_left"):
 			steerAngle = steeringAngle
-		if Input.is_action_pressed("ui_right"):
+			currentSteerAngle = lerp(currentSteerAngle, steerAngle, delta * steerSpeed)
+		elif Input.is_action_pressed("ui_right"):
 			steerAngle = -steeringAngle
-		
-		# lerp steering angle
-		currentSteerAngle = lerp(currentSteerAngle, steerAngle, delta * steerSpeed)
+			currentSteerAngle = lerp(currentSteerAngle, steerAngle, delta * steerSpeed)
+		else:
+			# return wheels to neutral faster than steering
+			currentSteerAngle = lerp(currentSteerAngle, steerAngle, delta * wheelReturnSpeed)
 			
 		frontRightWheel.rotation_degrees.y = currentSteerAngle
 		frontLeftWheel.rotation_degrees.y = currentSteerAngle
 		
-		ray.applyDriveForce(dir * global_transform.basis.z * drivePerRay * delta)
+		# apply drive force
+		if dir != 0:
+			currentDrivePower = lerp(currentDrivePower, dir * drivePerRay, delta * acceleration)
+		else:
+			currentDrivePower = 0.0
+		ray.applyDriveForce(global_transform.basis.z * currentDrivePower)
 
 func _ready() -> void:
 	# setup front right and front left wheels

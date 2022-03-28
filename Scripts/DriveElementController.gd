@@ -64,7 +64,7 @@ func is_colliding() -> bool:
 # function for applying drive force to parent body (if grounded)
 func applyDriveForce(force : Vector3) -> void:
 	if is_colliding():
-		parentBody.apply_impulse(parentBody.global_transform.basis.xform(parentBody.to_local(get_collision_point())),force)
+		parentBody.add_force(force, get_collision_point() - parentBody.global_transform.origin)
 
 func _ready() -> void:
 	# setup references (only need to get once, should be more efficient?)
@@ -93,30 +93,30 @@ func _physics_process(delta) -> void:
 		var FSpring = stifness * (abs(castTo.y) - curDistance) 
 		var FDamp = damping * (previousDistance - curDistance) / delta
 		var suspensionForce = clamp((FSpring + FDamp) * springForce,0,springMaxForce)
-		var suspensionImpulse = global_transform.basis.y * suspensionForce * delta
+		var suspensionForceVec= global_transform.basis.y * suspensionForce
 		
 		# obtain axis velocity
 		var ZVelocity = global_transform.basis.xform_inv(instantLinearVelocity).z
 		var XVelocity = global_transform.basis.xform_inv(instantLinearVelocity).x
 		
 		# axis deceleration forces
-		var XForce = -global_transform.basis.x * XVelocity * (parentBody.weight * parentBody.gravity_scale)/parentBody.rayElements.size() * Xtraction * delta
-		var ZForce = -global_transform.basis.z * ZVelocity * (parentBody.weight * parentBody.gravity_scale)/parentBody.rayElements.size() * Ztraction * delta
+		var XForce = -global_transform.basis.x * XVelocity * (parentBody.weight * parentBody.gravity_scale)/parentBody.rayElements.size() * Xtraction
+		var ZForce = -global_transform.basis.z * ZVelocity * (parentBody.weight * parentBody.gravity_scale)/parentBody.rayElements.size() * Ztraction
 		
 		# counter sliding by negating off axis suspension impulse
-		XForce.x -= suspensionImpulse.x * parentBody.global_transform.basis.y.dot(Vector3.UP)
-		ZForce.z -= suspensionImpulse.z * parentBody.global_transform.basis.y.dot(Vector3.UP)
+		XForce.x -= suspensionForceVec.x * parentBody.global_transform.basis.y.dot(Vector3.UP)
+		ZForce.z -= suspensionForceVec.z * parentBody.global_transform.basis.y.dot(Vector3.UP)
 		
 		# final impulse force vector to be applied
-		var finalForce = suspensionImpulse + XForce + ZForce
+		var finalForce = suspensionForceVec + XForce + ZForce
 		# draw debug lines
 		if GameState.debugMode:
-			DrawLine3D.DrawRay(get_collision_point(),suspensionImpulse,Color(0,255,0))
+			DrawLine3D.DrawRay(get_collision_point(),suspensionForceVec,Color(0,255,0))
 			DrawLine3D.DrawRay(get_collision_point(),XForce,Color(255,0,0))
 			DrawLine3D.DrawRay(get_collision_point(),ZForce,Color(0,0,255))
 			
-		# note that the point has to be xform()'ed to be at the correct location. Xform makes the pos global
-		parentBody.apply_impulse(parentBody.global_transform.basis.xform(parentBody.to_local(get_collision_point())),finalForce)
+		# apply forces relative to parent body
+		parentBody.add_force(finalForce, get_collision_point() - parentBody.global_transform.origin)
 		
 		# set the previous values at the very end, after they have been used
 		previousDistance = curDistance
