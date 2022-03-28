@@ -2,8 +2,9 @@ extends Spatial
 class_name DriveElement
 
 # control variables
+export var shape : Shape
+export(int, LAYERS_3D_PHYSICS) var mask : int = 1
 export var castTo : Vector3 = Vector3(0,-1,0)
-export var radius : float = 0.5
 export var springMaxForce : float = 300.0
 export var springForce : float = 180.0
 export var stifness : float = 0.85
@@ -28,15 +29,12 @@ class SphereCastResult:
 	var hit_normal: Vector3
 
 # function to do sphere casting
-func sphere_cast(origin: Vector3, offset: Vector3, radius: float):
+func sphere_cast(origin: Vector3, offset: Vector3):
 	var space: PhysicsDirectSpaceState = get_world().direct_space_state as PhysicsDirectSpaceState
-	
-	var shape: = SphereShape.new()
-	shape.radius = radius
-	
 	var params: = PhysicsShapeQueryParameters.new()
+	params.collision_mask = mask
 	params.set_shape(shape)
-	params.transform = Transform.IDENTITY
+	params.transform = transform
 	params.transform.origin = origin
 	# exclude parent body!
 	params.exclude = [parentBody]
@@ -74,10 +72,10 @@ func _ready() -> void:
 	
 func _physics_process(delta) -> void:
 	# perform sphere cast
-	var castResult = sphere_cast(global_transform.origin, castTo, radius)
+	var castResult = sphere_cast(global_transform.origin, castTo)
 	if GameState.debugMode:
-		DrawLine3D.DrawCube(global_transform.origin,radius,Color(255,0,255))
-		DrawLine3D.DrawCube(global_transform.origin + castTo,radius,Color(255,0,255))
+		DrawLine3D.DrawCube(global_transform.origin,0.5,Color(255,0,255))
+		DrawLine3D.DrawCube(global_transform.origin + castTo,0.5,Color(255,128,255))
 	# [1, 1] means no hit (from docs)
 	if castResult.hit_distance != abs(castTo.y):
 		# if grounded, handle forces

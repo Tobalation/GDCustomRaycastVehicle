@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scripts/TrackedRaycastVehicleController.gd" type="Script" id=1]
 [ext_resource path="res://Materials/GreySteel.material" type="Material" id=2]
@@ -107,10 +107,51 @@ surfaces/0 = {
 "vertex_count": 1132
 }
 
+[sub_resource type="SphereShape" id=10]
+resource_local_to_scene = true
+radius = 0.5
+
+[sub_resource type="SphereShape" id=11]
+resource_local_to_scene = true
+radius = 0.5
+
+[sub_resource type="SphereShape" id=12]
+resource_local_to_scene = true
+radius = 0.5
+
+[sub_resource type="SphereShape" id=13]
+resource_local_to_scene = true
+radius = 0.5
+
+[sub_resource type="SphereShape" id=14]
+resource_local_to_scene = true
+radius = 0.5
+
+[sub_resource type="SphereShape" id=15]
+resource_local_to_scene = true
+radius = 0.5
+
+[sub_resource type="SphereShape" id=16]
+resource_local_to_scene = true
+radius = 0.5
+
+[sub_resource type="SphereShape" id=17]
+resource_local_to_scene = true
+radius = 0.5
+
+[sub_resource type="SphereShape" id=18]
+resource_local_to_scene = true
+radius = 0.5
+
+[sub_resource type="SphereShape" id=19]
+resource_local_to_scene = true
+radius = 0.5
+
 [node name="M113" type="RigidBody"]
+collision_layer = 2
+collision_mask = 3
 mass = 10.0
 can_sleep = false
-linear_damp = 0.2
 angular_damp = 0.8
 script = ExtResource( 1 )
 enginePower = 350.0
@@ -131,7 +172,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, 1.6 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
-wheelOffset = Vector3( 0, 0.35, 0 )
+wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel1"
 raycastPath = NodePath("../../../M113/Lray1")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
@@ -141,7 +182,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, 0.8 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
-wheelOffset = Vector3( 0, 0.35, 0 )
+wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel2"
 raycastPath = NodePath("../../../M113/Lray2")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
@@ -151,7 +192,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, 0 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
-wheelOffset = Vector3( 0, 0.35, 0 )
+wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel3"
 raycastPath = NodePath("../../../M113/Lray3")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
@@ -161,7 +202,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, -0.8 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
-wheelOffset = Vector3( 0, 0.35, 0 )
+wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel4"
 raycastPath = NodePath("../../../M113/Lray4")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
@@ -171,7 +212,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, -1.6 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
-wheelOffset = Vector3( 0, 0.35, 0 )
+wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel5"
 raycastPath = NodePath("../../../M113/Lray5")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
@@ -234,7 +275,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, 1.6 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
-wheelOffset = Vector3( 0, 0.35, 0 )
+wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel1"
 raycastPath = NodePath("../../../M113/Rray1")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
@@ -244,7 +285,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, 0.8 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
-wheelOffset = Vector3( 0, 0.35, 0 )
+wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel2"
 raycastPath = NodePath("../../../M113/Rray2")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
@@ -254,7 +295,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, 0 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
-wheelOffset = Vector3( 0, 0.35, 0 )
+wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel3"
 raycastPath = NodePath("../../../M113/Rray3")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
@@ -264,7 +305,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, -0.8 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
-wheelOffset = Vector3( 0, 0.35, 0 )
+wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel4"
 raycastPath = NodePath("../../../M113/Rray4")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
@@ -274,7 +315,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, -1.6 )
 mesh = SubResource( 3 )
 material/0 = null
 script = ExtResource( 4 )
-wheelOffset = Vector3( 0, 0.35, 0 )
+wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel5"
 raycastPath = NodePath("../../../M113/Rray5")
 trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
@@ -334,50 +375,50 @@ parentBodyPath = NodePath("../../../../M113")
 
 [node name="Lray1" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.61, 0.3, 1.6 )
+shape = SubResource( 10 )
 castTo = Vector3( 0, -0.4, 0 )
-radius = 0.3
 
 [node name="Lray2" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, 0.8 )
+shape = SubResource( 11 )
 castTo = Vector3( 0, -0.4, 0 )
-radius = 0.3
 
 [node name="Lray3" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, 0 )
+shape = SubResource( 12 )
 castTo = Vector3( 0, -0.4, 0 )
-radius = 0.3
 
 [node name="Lray4" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, -0.8 )
+shape = SubResource( 13 )
 castTo = Vector3( 0, -0.4, 0 )
-radius = 0.3
 
 [node name="Lray5" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, -1.6 )
+shape = SubResource( 14 )
 castTo = Vector3( 0, -0.4, 0 )
-radius = 0.3
 
 [node name="Rray1" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, 1.6 )
+shape = SubResource( 15 )
 castTo = Vector3( 0, -0.4, 0 )
-radius = 0.3
 
 [node name="Rray2" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, 0.8 )
+shape = SubResource( 16 )
 castTo = Vector3( 0, -0.4, 0 )
-radius = 0.3
 
 [node name="Rray3" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, 0 )
+shape = SubResource( 17 )
 castTo = Vector3( 0, -0.4, 0 )
-radius = 0.3
 
 [node name="Rray4" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, -0.8 )
+shape = SubResource( 18 )
 castTo = Vector3( 0, -0.4, 0 )
-radius = 0.3
 
 [node name="Rray5" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, -1.6 )
+shape = SubResource( 19 )
 castTo = Vector3( 0, -0.4, 0 )
-radius = 0.3
