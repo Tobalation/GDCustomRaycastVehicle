@@ -18,18 +18,18 @@ var instantLinearVelocity : Vector3
 # private variables
 var parentBody : RigidBody
 var previousDistance : float = abs(castTo.y)
-var previousHit : SphereCastResult = SphereCastResult.new()
+var previousHit : ShapeCastResult = ShapeCastResult.new()
 var collisionPoint : Vector3 = castTo
 var grounded : bool = false
 
-# sphere cast result storage class
-class SphereCastResult:
+# shape cast result storage class
+class ShapeCastResult:
 	var hit_distance: float
 	var hit_position: Vector3
 	var hit_normal: Vector3
 
 # function to do sphere casting
-func sphere_cast(origin: Vector3, offset: Vector3):
+func shape_cast(origin: Vector3, offset: Vector3):
 	var space: PhysicsDirectSpaceState = get_world().direct_space_state as PhysicsDirectSpaceState
 	var params: = PhysicsShapeQueryParameters.new()
 	params.collision_mask = mask
@@ -41,7 +41,7 @@ func sphere_cast(origin: Vector3, offset: Vector3):
 	
 	var castResult = space.cast_motion(params, offset)
 
-	var result: = SphereCastResult.new()
+	var result: = ShapeCastResult.new()
 	
 	result.hit_distance = castResult[0] * offset.length()
 	result.hit_position = origin + offset * castResult[0]
@@ -72,7 +72,7 @@ func _ready() -> void:
 	
 func _physics_process(delta) -> void:
 	# perform sphere cast
-	var castResult = sphere_cast(global_transform.origin, castTo)
+	var castResult = shape_cast(global_transform.origin, castTo)
 	if GameState.debugMode:
 		DrawLine3D.DrawCube(global_transform.origin,0.5,Color(255,0,255))
 		DrawLine3D.DrawCube(global_transform.origin + castTo,0.5,Color(255,128,255))
@@ -124,7 +124,7 @@ func _physics_process(delta) -> void:
 	else:
 		# not grounded, set prev values to fully extended suspension
 		grounded = false
-		previousHit = SphereCastResult.new()
+		previousHit = ShapeCastResult.new()
 		previousHit.hit_position = global_transform.origin + castTo
 		previousHit.hit_distance = abs(castTo.y)
 		previousDistance = previousHit.hit_distance
