@@ -99,9 +99,9 @@ func _physics_process(delta) -> void:
 		var ZVelocity = global_transform.basis.xform_inv(instantLinearVelocity).z
 		var XVelocity = global_transform.basis.xform_inv(instantLinearVelocity).x
 		
-		# axis deceleration forces
-		var XForce = -global_transform.basis.x * XVelocity * (parentBody.weight * parentBody.gravity_scale)/parentBody.rayElements.size() * Xtraction
-		var ZForce = -global_transform.basis.z * ZVelocity * (parentBody.weight * parentBody.gravity_scale)/parentBody.rayElements.size() * Ztraction
+		# axis deceleration forces based on vehicle weight
+		var XForce = -global_transform.basis.x * XVelocity * Xtraction * (parentBody.weight * parentBody.gravity_scale)/parentBody.rayElements.size()
+		var ZForce = -global_transform.basis.z * ZVelocity * Ztraction * (parentBody.weight * parentBody.gravity_scale)/parentBody.rayElements.size()
 		
 		# counter sliding by negating off axis suspension impulse
 		XForce.x -= suspensionForceVec.x * parentBody.global_transform.basis.y.dot(Vector3.UP)
@@ -128,4 +128,4 @@ func _physics_process(delta) -> void:
 		previousHit.hit_position = global_transform.origin + castTo
 		previousHit.hit_distance = abs(castTo.y)
 		previousDistance = previousHit.hit_distance
-		
+		instantLinearVelocity = Vector3.ZERO

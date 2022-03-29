@@ -377,48 +377,58 @@ parentBodyPath = NodePath("../../../../M113")
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.61, 0.3, 1.6 )
 shape = SubResource( 10 )
 castTo = Vector3( 0, -0.4, 0 )
+Xtraction = 0.5
 
 [node name="Lray2" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, 0.8 )
 shape = SubResource( 11 )
 castTo = Vector3( 0, -0.4, 0 )
+Xtraction = 0.5
 
 [node name="Lray3" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, 0 )
 shape = SubResource( 12 )
 castTo = Vector3( 0, -0.4, 0 )
+Xtraction = 0.5
 
 [node name="Lray4" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, -0.8 )
 shape = SubResource( 13 )
 castTo = Vector3( 0, -0.4, 0 )
+Xtraction = 0.5
 
 [node name="Lray5" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, -1.6 )
 shape = SubResource( 14 )
 castTo = Vector3( 0, -0.4, 0 )
+Xtraction = 0.5
 
 [node name="Rray1" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, 1.6 )
 shape = SubResource( 15 )
 castTo = Vector3( 0, -0.4, 0 )
+Xtraction = 0.5
 
 [node name="Rray2" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, 0.8 )
 shape = SubResource( 16 )
 castTo = Vector3( 0, -0.4, 0 )
+Xtraction = 0.5
 
 [node name="Rray3" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, 0 )
 shape = SubResource( 17 )
 castTo = Vector3( 0, -0.4, 0 )
+Xtraction = 0.5
 
 [node name="Rray4" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, -0.8 )
 shape = SubResource( 18 )
 castTo = Vector3( 0, -0.4, 0 )
+Xtraction = 0.5
 
 [node name="Rray5" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, -1.6 )
 shape = SubResource( 19 )
 castTo = Vector3( 0, -0.4, 0 )
+Xtraction = 0.5
