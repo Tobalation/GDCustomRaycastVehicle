@@ -32,8 +32,6 @@ mass = 20.0
 angular_damp = 0.2
 script = ExtResource( 6 )
 enginePower = 800.0
-steeringAngle = 35.0
-steerSpeed = 0.25
 acceleration = 0.5
 
 [node name="Body" type="MeshInstance" parent="."]
