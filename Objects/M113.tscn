@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Scripts/TrackedRaycastVehicleController.gd" type="Script" id=1]
 [ext_resource path="res://Materials/GreySteel.material" type="Material" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scripts/SuspensionAnimator.gd" type="Script" id=4]
 [ext_resource path="res://BlenderFiles/tank_track.png" type="Texture" id=5]
 [ext_resource path="res://Scripts/TrackAnimator.gd" type="Script" id=6]
+[ext_resource path="res://default_acceleration_curve.tres" type="Curve" id=7]
 [ext_resource path="res://Objects/DriveElement.tscn" type="PackedScene" id=8]
 
 [sub_resource type="ConvexPolygonShape" id=1]
@@ -154,7 +155,7 @@ mass = 10.0
 can_sleep = false
 angular_damp = 0.8
 script = ExtResource( 1 )
-enginePower = 350.0
+torqueCurve = ExtResource( 7 )
 
 [node name="HullShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
@@ -165,12 +166,10 @@ shape = SubResource( 1 )
 [node name="Hull" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
 mesh = SubResource( 2 )
-material/0 = null
 
 [node name="RoadWheelL1" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, 1.6 )
 mesh = SubResource( 3 )
-material/0 = null
 script = ExtResource( 4 )
 wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel1"
@@ -180,7 +179,6 @@ trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
 [node name="RoadWheelL2" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, 0.8 )
 mesh = SubResource( 3 )
-material/0 = null
 script = ExtResource( 4 )
 wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel2"
@@ -190,7 +188,6 @@ trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
 [node name="RoadWheelL3" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, 0 )
 mesh = SubResource( 3 )
-material/0 = null
 script = ExtResource( 4 )
 wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel3"
@@ -200,7 +197,6 @@ trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
 [node name="RoadWheelL4" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, -0.8 )
 mesh = SubResource( 3 )
-material/0 = null
 script = ExtResource( 4 )
 wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel4"
@@ -210,7 +206,6 @@ trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
 [node name="RoadWheelL5" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.1, -1.6 )
 mesh = SubResource( 3 )
-material/0 = null
 script = ExtResource( 4 )
 wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel5"
@@ -220,12 +215,10 @@ trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureL")
 [node name="DriveSprocketL" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.41, 2.275 )
 mesh = SubResource( 4 )
-material/0 = null
 
 [node name="IdlerL" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.35, -2.18 )
 mesh = SubResource( 5 )
-material/0 = null
 
 [node name="TrackArmatureL" type="Skeleton" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.016667, 0 )
@@ -263,7 +256,6 @@ bones/5/bound_children = [  ]
 [node name="TrackL" type="MeshInstance" parent="Visuals/TrackArmatureL"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.38419e-07, -0.266667, 0 )
 mesh = SubResource( 7 )
-material/0 = null
 script = ExtResource( 6 )
 roadWheelPaths = [ NodePath("../../RoadWheelL1"), NodePath("../../RoadWheelL2"), NodePath("../../RoadWheelL3"), NodePath("../../RoadWheelL4"), NodePath("../../RoadWheelL5") ]
 sprocketPath = NodePath("../../../../M113/Visuals/DriveSprocketL")
@@ -273,7 +265,6 @@ parentBodyPath = NodePath("../../../../M113")
 [node name="RoadWheelR1" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, 1.6 )
 mesh = SubResource( 3 )
-material/0 = null
 script = ExtResource( 4 )
 wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel1"
@@ -283,7 +274,6 @@ trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
 [node name="RoadWheelR2" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, 0.8 )
 mesh = SubResource( 3 )
-material/0 = null
 script = ExtResource( 4 )
 wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel2"
@@ -293,7 +283,6 @@ trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
 [node name="RoadWheelR3" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, 0 )
 mesh = SubResource( 3 )
-material/0 = null
 script = ExtResource( 4 )
 wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel3"
@@ -303,7 +292,6 @@ trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
 [node name="RoadWheelR4" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, -0.8 )
 mesh = SubResource( 3 )
-material/0 = null
 script = ExtResource( 4 )
 wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel4"
@@ -313,7 +301,6 @@ trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
 [node name="RoadWheelR5" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.1, -1.6 )
 mesh = SubResource( 3 )
-material/0 = null
 script = ExtResource( 4 )
 wheelOffset = Vector3( 0, 0.2, 0 )
 boneName = "wheel5"
@@ -323,12 +310,10 @@ trackSkeletonPath = NodePath("../../../M113/Visuals/TrackArmatureR")
 [node name="DriveSprocketR" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.41, 2.275 )
 mesh = SubResource( 4 )
-material/0 = null
 
 [node name="IdlerR" type="MeshInstance" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.35, -2.18 )
 mesh = SubResource( 5 )
-material/0 = null
 
 [node name="TrackArmatureR" type="Skeleton" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.0166666, 0 )
@@ -366,7 +351,6 @@ bones/5/bound_children = [  ]
 [node name="TrackR" type="MeshInstance" parent="Visuals/TrackArmatureR"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.38419e-07, -0.266667, 0 )
 mesh = SubResource( 9 )
-material/0 = null
 script = ExtResource( 6 )
 roadWheelPaths = [ NodePath("../../RoadWheelR1"), NodePath("../../RoadWheelR2"), NodePath("../../RoadWheelR3"), NodePath("../../RoadWheelR4"), NodePath("../../RoadWheelR5") ]
 sprocketPath = NodePath("../../../../M113/Visuals/DriveSprocketR")
@@ -378,57 +362,67 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.61, 0.3, 1.6 )
 shape = SubResource( 10 )
 castTo = Vector3( 0, -0.4, 0 )
 Xtraction = 0.5
+Ztraction = 0.0
 
 [node name="Lray2" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, 0.8 )
 shape = SubResource( 11 )
 castTo = Vector3( 0, -0.4, 0 )
 Xtraction = 0.5
+Ztraction = 0.0
 
 [node name="Lray3" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, 0 )
 shape = SubResource( 12 )
 castTo = Vector3( 0, -0.4, 0 )
 Xtraction = 0.5
+Ztraction = 0.0
 
 [node name="Lray4" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, -0.8 )
 shape = SubResource( 13 )
 castTo = Vector3( 0, -0.4, 0 )
 Xtraction = 0.5
+Ztraction = 0.0
 
 [node name="Lray5" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60964, 0.3, -1.6 )
 shape = SubResource( 14 )
 castTo = Vector3( 0, -0.4, 0 )
 Xtraction = 0.5
+Ztraction = 0.0
 
 [node name="Rray1" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, 1.6 )
 shape = SubResource( 15 )
 castTo = Vector3( 0, -0.4, 0 )
 Xtraction = 0.5
+Ztraction = 0.0
 
 [node name="Rray2" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, 0.8 )
 shape = SubResource( 16 )
 castTo = Vector3( 0, -0.4, 0 )
 Xtraction = 0.5
+Ztraction = 0.0
 
 [node name="Rray3" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, 0 )
 shape = SubResource( 17 )
 castTo = Vector3( 0, -0.4, 0 )
 Xtraction = 0.5
+Ztraction = 0.0
 
 [node name="Rray4" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, -0.8 )
 shape = SubResource( 18 )
 castTo = Vector3( 0, -0.4, 0 )
 Xtraction = 0.5
+Ztraction = 0.0
 
 [node name="Rray5" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61, 0.3, -1.6 )
 shape = SubResource( 19 )
 castTo = Vector3( 0, -0.4, 0 )
 Xtraction = 0.5
+Ztraction = 0.0

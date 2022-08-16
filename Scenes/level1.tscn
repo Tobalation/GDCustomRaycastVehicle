@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
+[ext_resource path="res://Scripts/Speedometer.gd" type="Script" id=1]
 [ext_resource path="res://Objects/TestLevel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/VBL.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/CameraRig.tscn" type="PackedScene" id=4]
@@ -45,9 +46,6 @@ camYOffset = 3.0
 _camTarget = NodePath("../VBL")
 
 [node name="DebugUI" type="Control" parent="."]
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Hint" type="Label" parent="DebugUI"]
 anchor_right = 0.5
@@ -100,5 +98,18 @@ text = "Change to Tracked vehicle"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Speedometer" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -120.0
+margin_top = -80.0
+margin_right = 120.0
+text = "0 KM/H"
+align = 1
+script = ExtResource( 1 )
+vehicle = NodePath("../VBL")
 
 [connection signal="pressed" from="DebugUI/ChangeButton" to="SceneChanger" method="_on_ChangeButton_pressed"]

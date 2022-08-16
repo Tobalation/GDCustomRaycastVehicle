@@ -11,12 +11,14 @@ export var stifness : float = 0.85
 export var damping : float = 0.05
 export var Xtraction : float = 1.0
 export var Ztraction : float = 0.15
+export var staticSlideThreshold : float = 0.005
 
 # public variables
 var instantLinearVelocity : Vector3
 
 # private variables
-var parentBody : RigidBody
+onready var parentBody : RigidBody = get_parent()
+
 var previousDistance : float = abs(castTo.y)
 var previousHit : ShapeCastResult = ShapeCastResult.new()
 var collisionPoint : Vector3 = castTo
@@ -24,9 +26,9 @@ var grounded : bool = false
 
 # shape cast result storage class
 class ShapeCastResult:
-	var hit_distance: float
-	var hit_position: Vector3
-	var hit_normal: Vector3
+	var hit_distance : float
+	var hit_position : Vector3
+	var hit_normal : Vector3
 
 # function to do sphere casting
 func shape_cast(origin: Vector3, offset: Vector3):
@@ -61,15 +63,15 @@ func get_collision_point() -> Vector3:
 func is_colliding() -> bool:
 	return grounded
 
+# set forward friction (braking)
+func set_brake(amount : float = 0.0) -> void:
+	Ztraction = max(0.0, amount)
+
 # function for applying drive force to parent body (if grounded)
-func applyDriveForce(force : Vector3) -> void:
+func apply_force(force : Vector3) -> void:
 	if is_colliding():
 		parentBody.add_force(force, get_collision_point() - parentBody.global_transform.origin)
 
-func _ready() -> void:
-	# setup references (only need to get once, should be more efficient?)
-	parentBody = get_parent()
-	
 func _physics_process(delta) -> void:
 	# perform sphere cast
 	var castResult = shape_cast(global_transform.origin, castTo)
@@ -89,26 +91,29 @@ func _physics_process(delta) -> void:
 		instantLinearVelocity = (collisionPoint - previousHit.hit_position) / delta
 		
 		# apply spring force with damping force
-		var curDistance = castResult.hit_distance
-		var FSpring = stifness * (abs(castTo.y) - curDistance) 
-		var FDamp = damping * (previousDistance - curDistance) / delta
-		var suspensionForce = clamp((FSpring + FDamp) * springForce,0,springMaxForce)
-		var suspensionForceVec= global_transform.basis.y * suspensionForce
+		var curDistance : float = castResult.hit_distance
+		var FSpring : float = stifness * (abs(castTo.y) - curDistance) 
+		var FDamp : float = damping * (previousDistance - curDistance) / delta
+		var suspensionForce : float = clamp((FSpring + FDamp) * springForce,0,springMaxForce)
+		var suspensionForceVec : Vector3 = global_transform.basis.y * suspensionForce
 		
 		# obtain axis velocity
-		var ZVelocity = global_transform.basis.xform_inv(instantLinearVelocity).z
-		var XVelocity = global_transform.basis.xform_inv(instantLinearVelocity).x
+		var localVelocity : Vector3 = global_transform.basis.xform_inv(instantLinearVelocity)
 		
 		# axis deceleration forces based on vehicle weight
-		var XForce = -global_transform.basis.x * XVelocity * Xtraction * (parentBody.weight * parentBody.gravity_scale)/parentBody.rayElements.size()
-		var ZForce = -global_transform.basis.z * ZVelocity * Ztraction * (parentBody.weight * parentBody.gravity_scale)/parentBody.rayElements.size()
+		var XForce : Vector3 = global_transform.basis.x * -localVelocity.x * Xtraction * (parentBody.weight * parentBody.gravity_scale)/parentBody.rayElements.size()
+		var ZForce : Vector3 = global_transform.basis.z * -localVelocity.z * Ztraction * (parentBody.weight * parentBody.gravity_scale)/parentBody.rayElements.size()
 		
-		# counter sliding by negating off axis suspension impulse
-		XForce.x -= suspensionForceVec.x * parentBody.global_transform.basis.y.dot(Vector3.UP)
-		ZForce.z -= suspensionForceVec.z * parentBody.global_transform.basis.y.dot(Vector3.UP)
+		# counter sliding by negating off axis suspension impulse at very low speed
+		var vLimit : float = parentBody.linear_velocity.length_squared() * delta
+		if vLimit < staticSlideThreshold:
+#			suspensionForceVec = Vector3.UP * suspensionForce
+			XForce.x -= suspensionForceVec.x * parentBody.global_transform.basis.y.dot(Vector3.UP)
+			ZForce.z -= suspensionForceVec.z * parentBody.global_transform.basis.y.dot(Vector3.UP)
 		
 		# final impulse force vector to be applied
 		var finalForce = suspensionForceVec + XForce + ZForce
+		
 		# draw debug lines
 		if GameState.debugMode:
 			DrawLine3D.DrawRay(get_collision_point(),suspensionForceVec,Color(0,255,0))

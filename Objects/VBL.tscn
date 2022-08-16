@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://BlenderFiles/wheel.mesh" type="ArrayMesh" id=1]
 [ext_resource path="res://BlenderFiles/body.mesh" type="ArrayMesh" id=2]
 [ext_resource path="res://Objects/DriveElement.tscn" type="PackedScene" id=3]
+[ext_resource path="res://default_acceleration_curve.tres" type="Curve" id=4]
 [ext_resource path="res://Scripts/4WheelRayVehicleController.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/WheelAnimator.gd" type="Script" id=7]
 
@@ -11,7 +12,7 @@ points = PoolVector3Array( -0.381204, 0.61475, -1.00431, 0.620142, 0.185176, 1.1
 
 [sub_resource type="SphereShape" id=8]
 resource_local_to_scene = true
-radius = 0.3
+radius = 0.28
 
 [sub_resource type="SphereShape" id=5]
 resource_local_to_scene = true
@@ -28,18 +29,14 @@ radius = 0.3
 [node name="VBL" type="RigidBody"]
 collision_layer = 2
 collision_mask = 3
-mass = 20.0
+mass = 10.0
 angular_damp = 0.2
 script = ExtResource( 6 )
-enginePower = 800.0
-acceleration = 0.5
+torqueCurve = ExtResource( 4 )
 
 [node name="Body" type="MeshInstance" parent="."]
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.203215, 0.0164142 )
 mesh = ExtResource( 2 )
-material/0 = null
-material/1 = null
-material/2 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.203215, 0.0164142 )
@@ -50,17 +47,15 @@ transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 1, 0.025264, 1.6 )
 shape = SubResource( 8 )
 castTo = Vector3( 0, -0.2, 0 )
 springMaxForce = 400.0
-springForce = 400.0
-stifness = 0.8
+springForce = 200.0
+stifness = 0.75
 damping = 0.1
 Xtraction = 0.2
-Ztraction = 0.05
+Ztraction = 0.0
 
 [node name="wheelFL" type="MeshInstance" parent="FL_ray"]
 transform = Transform( -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0, 0, 1, 0, 0, 0 )
 mesh = ExtResource( 1 )
-material/0 = null
-material/1 = null
 script = ExtResource( 7 )
 wheelOffset = Vector3( 0, 0, 0 )
 
@@ -69,17 +64,15 @@ transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 1, 0.025264, -1.2 )
 shape = SubResource( 5 )
 castTo = Vector3( 0, -0.2, 0 )
 springMaxForce = 400.0
-springForce = 400.0
-stifness = 0.8
+springForce = 200.0
+stifness = 0.75
 damping = 0.1
 Xtraction = 0.2
-Ztraction = 0.05
+Ztraction = 0.0
 
 [node name="wheelRL" type="MeshInstance" parent="RL_ray"]
 transform = Transform( 1.78814e-07, 1, 0, -1, 1.78814e-07, 0, 0, 0, 1, 0, 0, 0 )
 mesh = ExtResource( 1 )
-material/0 = null
-material/1 = null
 script = ExtResource( 7 )
 wheelOffset = Vector3( 0, 0, 0 )
 
@@ -88,17 +81,15 @@ transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, -1, 0.025264, 1.6 )
 shape = SubResource( 6 )
 castTo = Vector3( 0, -0.2, 0 )
 springMaxForce = 400.0
-springForce = 400.0
-stifness = 0.8
+springForce = 200.0
+stifness = 0.75
 damping = 0.1
 Xtraction = 0.2
-Ztraction = 0.05
+Ztraction = 0.0
 
 [node name="wheelFR" type="MeshInstance" parent="FR_ray"]
 transform = Transform( 3.57628e-07, -1, 0, 1, 3.57628e-07, 0, 0, 0, 1, 0, 0, 0 )
 mesh = ExtResource( 1 )
-material/0 = null
-material/1 = null
 script = ExtResource( 7 )
 wheelOffset = Vector3( 0, 0, 0 )
 
@@ -107,16 +98,14 @@ transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, -1, 0.025264, -1.2 )
 shape = SubResource( 7 )
 castTo = Vector3( 0, -0.2, 0 )
 springMaxForce = 400.0
-springForce = 400.0
-stifness = 0.8
+springForce = 200.0
+stifness = 0.75
 damping = 0.1
 Xtraction = 0.2
-Ztraction = 0.05
+Ztraction = 0.0
 
 [node name="wheelRR" type="MeshInstance" parent="RR_ray"]
 transform = Transform( 3.57628e-07, -1, 0, 1, 3.57628e-07, 0, 0, 0, 1, 0, 0, 0 )
 mesh = ExtResource( 1 )
-material/0 = null
-material/1 = null
 script = ExtResource( 7 )
 wheelOffset = Vector3( 0, 0, 0 )

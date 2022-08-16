@@ -87,9 +87,9 @@ reset_vehicle={
 
 [physics]
 
+3d/smooth_trimesh_collision=true
 3d/physics_engine="Bullet"
 3d/active_soft_world=false
-3d/smooth_trimesh_collision=true
 
 [rendering]
 
