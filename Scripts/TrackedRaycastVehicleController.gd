@@ -4,69 +4,107 @@ extends RigidBody
 export(bool) var neutralSteer : bool = true
 export(float) var enginePower : float = 150
 export(Curve) var torqueCurve : Curve
-export(float) var acceleration : float = 1.0
-export(float) var deceleration : float = 4.0
 export(float) var maxSpeedKph : float = 65.0
 export(float) var maxReverseSpeedKph : float = 20.0
-export(float) var trackBrakeCoef : float = 0.1
-export(float) var rollingResistance : float = 0.002
+export(float) var trackBrakeCoef : float = 0.8
+export(float) var trackBrakingSpeed : float = 0.4
+export(float) var rollingResistance : float = 0.02
+export(float) var autoStopSpeedMS : float = 1.0
 
 # currently, DriveElement expects this array to exist in the controller script
 var rayElements : Array = []
 var drivePerRay : float = enginePower
 
 var currentDrivePower : float = 0.0
+var currentSteerBrakePower : float = 0.0
+var currentParkingBrakePower : float = 0.0
 var currentSpeed : float = 0.0
+
+var lastSteerValue : float = 0.0
 	
 func _handle_physics(delta) -> void:
 	# get throttle and steering input
 	var throttle : float = Input.get_axis("ui_down", "ui_up")
 	var steering : float = Input.get_axis("ui_left", "ui_right")
 	
-	# calculate motor forces
+	# Invert steering when reversing
+#	if throttle < 0:
+#		steering *= -1
+	
+	# calculate speed interpolation
+	var speedInterp : float
 	# forward
-	if throttle > 0:
-		var speedInterp : float = range_lerp(linear_velocity.length(), 0.0, maxSpeedKph / 3.6, 0.0, 1.0)
-		currentDrivePower = lerp(currentDrivePower, torqueCurve.interpolate_baked(speedInterp) * drivePerRay, acceleration * delta)
+	if throttle > 0 || steering != 0:
+		speedInterp = range_lerp(linear_velocity.length(), 0.0, maxSpeedKph / 3.6, 0.0, 1.0)
 	# reverse
 	elif throttle < 0:
-		var speedInterp : float = range_lerp(linear_velocity.length(), 0.0, maxReverseSpeedKph / 3.6, 0.0, 1.0)
-		currentDrivePower = lerp(currentDrivePower, torqueCurve.interpolate_baked(speedInterp) * drivePerRay, acceleration * delta)
-	# neutral steering (will use full power)
-	elif steering != 0 && throttle == 0:
-		currentDrivePower = lerp(currentDrivePower, drivePerRay, acceleration * delta)
-	# deceleration
+		speedInterp = range_lerp(linear_velocity.length(), 0.0, maxReverseSpeedKph / 3.6, 0.0, 1.0)
+	
+	# get force from torque curve (based on current speed)
+	currentDrivePower = torqueCurve.interpolate_baked(speedInterp) * drivePerRay
+	
+	# calculate track braking powers
+	
+	# reset steering if opposite input used
+	if sign(steering) != sign(lastSteerValue):
+		currentSteerBrakePower = 0
+	# gradually apply steering and decay if no steering applied
+	if steering != 0:
+		currentSteerBrakePower = lerp(currentSteerBrakePower, trackBrakeCoef, trackBrakingSpeed * delta)
 	else:
-		currentDrivePower = lerp(currentDrivePower, 0.0, deceleration * delta)
+		currentSteerBrakePower = 0
+	# set last steer value
+	lastSteerValue = steering
 	
 	# set drive for each track element
 	for ray in rayElements:
-		# auto brake
-		if throttle == 0 && steering == 0:
-			ray.set_brake(trackBrakeCoef)
-		else:
-			ray.set_brake(rollingResistance)
+		var finalForce : Vector3 = Vector3.ZERO
+		var finalBrake : float = rollingResistance
+		var trackSide : int = sign(ray.transform.origin.x)
 		
-		# apply throttle
-		if throttle != 0:
-			ray.apply_force(global_transform.basis.z * currentDrivePower * throttle)
+		# no drive inputs, apply parking brake if sitting still
+		if throttle == 0 && steering == 0 && abs(currentSpeed) < autoStopSpeedMS:
+			currentParkingBrakePower = lerp(currentParkingBrakePower, trackBrakeCoef, trackBrakingSpeed/2 * delta)
+			finalBrake = currentParkingBrakePower
 		
-		# apply drive or braking depending on setup
-		if steering != 0:
-			# currently driving, brake only
-			if throttle != 0:
-				ray.set_brake(trackBrakeCoef * steering * -sign(ray.transform.origin.x))
+		# throttle only, no steering
+		elif throttle != 0 && steering == 0:
+			# handle auto braking and drive from throttle
+			if sign(throttle) != sign(currentSpeed):
+				currentParkingBrakePower = lerp(currentParkingBrakePower, trackBrakeCoef, trackBrakingSpeed * delta)
+				finalBrake = currentParkingBrakePower
+				if abs(currentSpeed) < autoStopSpeedMS:
+					finalForce = global_transform.basis.z * currentDrivePower * throttle
 			else:
+				currentParkingBrakePower = lerp(currentParkingBrakePower, 0.0, trackBrakingSpeed * delta)
+				finalForce = global_transform.basis.z * currentDrivePower * throttle
+				finalBrake = 0
+			
+		# throttle and steering
+		elif throttle != 0 && steering != 0:
+			# apply drive
+			finalForce = global_transform.basis.z * currentDrivePower * (throttle + steering * trackSide)
+			# apply braking
+			finalBrake = currentSteerBrakePower * steering * -trackSide
+			
+		# steering only
+		elif throttle == 0 && steering != 0:
+			if abs(currentSpeed) < autoStopSpeedMS:
 				# handle neutral steering
 				if neutralSteer:
-					ray.apply_force(global_transform.basis.z * currentDrivePower * steering * sign(ray.transform.origin.x))
-				# handle clutch brake steering
+					finalForce = global_transform.basis.z * currentDrivePower * steering * trackSide
 				else:
+					# handle clutch brake steering
 					if sign(ray.transform.origin.x) == sign(steering):
-						ray.apply_force(global_transform.basis.z * currentDrivePower * steering * sign(ray.transform.origin.x))
+						finalForce = global_transform.basis.z * currentDrivePower * steering * trackSide
 					else:
-						ray.set_brake(trackBrakeCoef * steering * -sign(ray.transform.origin.x))
-			
+						finalBrake = currentSteerBrakePower * steering * -trackSide
+			else:
+				finalBrake = currentSteerBrakePower * steering * -trackSide
+		
+		# apply brake and force
+		ray.apply_force(finalForce)
+		ray.apply_brake(finalBrake)
 		
 
 func _ready() -> void:

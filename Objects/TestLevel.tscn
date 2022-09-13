@@ -68,6 +68,7 @@ points = PoolVector3Array( 0, 5, 0.5, 0.0490086, 5, 0.497592, 0.0975452, 5, 0.49
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( -0.998024, 0.0570876, -0.0262618, 0.0100297, 0.557285, 0.830261, 0.0620329, 0.828356, -0.556756, 0, 21.6264, 0 )
 shadow_enabled = true
+directional_shadow_mode = 0
 
 [node name="Floor" type="MeshInstance" parent="."]
 cast_shadow = 0
@@ -240,7 +241,6 @@ shape = SubResource( 13 )
 [node name="BigAssRock" type="MeshInstance" parent="."]
 transform = Transform( 0.920099, 0.320594, -0.225026, 0.0172725, 0.540737, 0.841014, 0.391304, -0.777704, 0.491994, 29.5096, 9.58008, -83.6479 )
 mesh = SubResource( 15 )
-material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="BigAssRock"]
 
@@ -250,7 +250,6 @@ shape = SubResource( 16 )
 [node name="Bump" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -15, -0.5, -12 )
 mesh = SubResource( 18 )
-material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Bump"]
 
@@ -260,7 +259,6 @@ shape = SubResource( 19 )
 [node name="Bump2" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -17, -0.5, -12 )
 mesh = SubResource( 18 )
-material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Bump2"]
 
@@ -270,7 +268,6 @@ shape = SubResource( 19 )
 [node name="Bump3" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -19, -0.5, -12 )
 mesh = SubResource( 18 )
-material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Bump3"]
 
@@ -280,7 +277,6 @@ shape = SubResource( 19 )
 [node name="Bump4" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -21, -0.5, -12 )
 mesh = SubResource( 18 )
-material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Bump4"]
 
@@ -290,7 +286,6 @@ shape = SubResource( 19 )
 [node name="Bump5" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -23, -0.5, -12 )
 mesh = SubResource( 18 )
-material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Bump5"]
 
@@ -300,7 +295,6 @@ shape = SubResource( 19 )
 [node name="Bump6" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -25, -0.5, -12 )
 mesh = SubResource( 18 )
-material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Bump6"]
 
@@ -310,7 +304,6 @@ shape = SubResource( 19 )
 [node name="Bump8" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -27, -0.5, -12 )
 mesh = SubResource( 18 )
-material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Bump8"]
 
@@ -320,7 +313,6 @@ shape = SubResource( 19 )
 [node name="Bump7" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -29, -0.5, -12 )
 mesh = SubResource( 18 )
-material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Bump7"]
 
@@ -330,7 +322,6 @@ shape = SubResource( 19 )
 [node name="Bump10" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -31, -0.5, -12 )
 mesh = SubResource( 18 )
-material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Bump10"]
 
@@ -340,7 +331,6 @@ shape = SubResource( 19 )
 [node name="Bump9" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -33, -0.5, -12 )
 mesh = SubResource( 18 )
-material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Bump9"]
 
@@ -350,7 +340,6 @@ shape = SubResource( 19 )
 [node name="Bump12" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -35, -0.5, -12 )
 mesh = SubResource( 18 )
-material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Bump12"]
 
@@ -360,7 +349,6 @@ shape = SubResource( 19 )
 [node name="Bump11" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -37, -0.5, -12 )
 mesh = SubResource( 18 )
-material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Bump11"]
 

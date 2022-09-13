@@ -64,7 +64,7 @@ func is_colliding() -> bool:
 	return grounded
 
 # set forward friction (braking)
-func set_brake(amount : float = 0.0) -> void:
+func apply_brake(amount : float = 0.0) -> void:
 	Ztraction = max(0.0, amount)
 
 # function for applying drive force to parent body (if grounded)

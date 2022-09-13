@@ -37,7 +37,7 @@ script = SubResource( 1 )
 [node name="TestLevel" parent="." instance=ExtResource( 2 )]
 
 [node name="M113" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36716, -6 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -6 )
 gravity_scale = 2.0
 linear_damp = 0.1
 
