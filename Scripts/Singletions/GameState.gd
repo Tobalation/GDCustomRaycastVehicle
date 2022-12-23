@@ -3,6 +3,7 @@ extends Node
 # global vars
 var mouseHidden : bool = true
 var debugMode : bool = false
+var debugRayScaleFac : float = 1000.0
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

@@ -34,7 +34,7 @@ angular_damp = 0.2
 script = ExtResource( 6 )
 enginePower = 6000.0
 torqueCurve = ExtResource( 4 )
-maxReverseSpeedKph = 40.0
+maxBrakingCoef = 0.01
 steerSpeed = 10.0
 
 [node name="Body" type="MeshInstance" parent="."]
@@ -49,11 +49,11 @@ shape = SubResource( 9 )
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 1, 0.025264, 1.6 )
 shape = SubResource( 8 )
 castTo = Vector3( 0, -0.25, 0 )
-springMaxForce = 20000.0
-springForce = 7000.0
+springMaxForce = 30000.0
+springForce = 12000.0
 stifness = 0.75
 damping = 0.2
-Xtraction = 0.25
+Xtraction = 0.05
 Ztraction = 0.0
 
 [node name="wheelFL" type="MeshInstance" parent="FL_ray"]
@@ -66,11 +66,11 @@ wheelOffset = Vector3( 0, 0, 0 )
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 1, 0.025264, -1.2 )
 shape = SubResource( 5 )
 castTo = Vector3( 0, -0.25, 0 )
-springMaxForce = 20000.0
-springForce = 7000.0
+springMaxForce = 30000.0
+springForce = 12000.0
 stifness = 0.75
 damping = 0.2
-Xtraction = 0.25
+Xtraction = 0.05
 Ztraction = 0.0
 
 [node name="wheelRL" type="MeshInstance" parent="RL_ray"]
@@ -83,11 +83,11 @@ wheelOffset = Vector3( 0, 0, 0 )
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, -1, 0.025264, 1.6 )
 shape = SubResource( 6 )
 castTo = Vector3( 0, -0.25, 0 )
-springMaxForce = 20000.0
-springForce = 7000.0
+springMaxForce = 30000.0
+springForce = 12000.0
 stifness = 0.75
 damping = 0.2
-Xtraction = 0.25
+Xtraction = 0.05
 Ztraction = 0.0
 
 [node name="wheelFR" type="MeshInstance" parent="FR_ray"]
@@ -100,11 +100,11 @@ wheelOffset = Vector3( 0, 0, 0 )
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, -1, 0.025264, -1.2 )
 shape = SubResource( 7 )
 castTo = Vector3( 0, -0.25, 0 )
-springMaxForce = 20000.0
-springForce = 7000.0
+springMaxForce = 30000.0
+springForce = 12000.0
 stifness = 0.75
 damping = 0.2
-Xtraction = 0.25
+Xtraction = 0.05
 Ztraction = 0.0
 
 [node name="wheelRR" type="MeshInstance" parent="RR_ray"]

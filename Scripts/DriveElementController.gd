@@ -12,6 +12,7 @@ export var damping : float = 0.05
 export var Xtraction : float = 1.0
 export var Ztraction : float = 0.15
 export var staticSlideThreshold : float = 0.005
+export var massKG : float = 100.0
 
 # public variables
 var instantLinearVelocity : Vector3
@@ -76,8 +77,8 @@ func _physics_process(delta) -> void:
 	# perform sphere cast
 	var castResult = shape_cast(global_transform.origin, castTo)
 	if GameState.debugMode:
-		DrawLine3D.DrawCube(global_transform.origin,0.5,Color(255,0,255))
-		DrawLine3D.DrawCube(global_transform.origin + castTo,0.5,Color(255,128,255))
+		DrawLine3D.DrawCube(global_transform.origin,0.1,Color(255,0,255))
+		DrawLine3D.DrawCube(global_transform.origin + castTo,0.1,Color(255,128,255))
 	# [1, 1] means no hit (from docs)
 	if castResult.hit_distance != abs(castTo.y):
 		# if grounded, handle forces
@@ -85,7 +86,7 @@ func _physics_process(delta) -> void:
 		collisionPoint = castResult.hit_position
 		if GameState.debugMode:
 			DrawLine3D.DrawCube(castResult.hit_position,0.04,Color(0,255,255))
-			DrawLine3D.DrawRay(castResult.hit_position,castResult.hit_normal,Color(0,0,0))
+			DrawLine3D.DrawRay(castResult.hit_position,castResult.hit_normal,Color(255,255,255))
 		
 		# obtain instantaneaous linear velocity
 		instantLinearVelocity = (collisionPoint - previousHit.hit_position) / delta
@@ -95,14 +96,16 @@ func _physics_process(delta) -> void:
 		var FSpring : float = stifness * (abs(castTo.y) - curDistance) 
 		var FDamp : float = damping * (previousDistance - curDistance) / delta
 		var suspensionForce : float = clamp((FSpring + FDamp) * springForce,0,springMaxForce)
-		var suspensionForceVec : Vector3 = global_transform.basis.y * suspensionForce
+		var suspensionForceVec : Vector3 = castResult.hit_normal * suspensionForce
 		
 		# obtain axis velocity
 		var localVelocity : Vector3 = global_transform.basis.xform_inv(instantLinearVelocity)
 		
-		# axis deceleration forces based on vehicle weight
-		var XForce : Vector3 = global_transform.basis.x * -localVelocity.x * Xtraction * (parentBody.weight * parentBody.gravity_scale)/parentBody.rayElements.size()
-		var ZForce : Vector3 = global_transform.basis.z * -localVelocity.z * Ztraction * (parentBody.weight * parentBody.gravity_scale)/parentBody.rayElements.size()
+		# axis deceleration forces based on this drive elements mass and current acceleration
+		var XAccel : float = (-localVelocity.x * Xtraction) / delta
+		var ZAccel : float = (-localVelocity.z * Ztraction) / delta
+		var XForce : Vector3 = global_transform.basis.x * XAccel * massKG
+		var ZForce : Vector3 = global_transform.basis.z * ZAccel * massKG
 		
 		# counter sliding by negating off axis suspension impulse at very low speed
 		var vLimit : float = parentBody.linear_velocity.length_squared() * delta
@@ -116,9 +119,9 @@ func _physics_process(delta) -> void:
 		
 		# draw debug lines
 		if GameState.debugMode:
-			DrawLine3D.DrawRay(get_collision_point(),suspensionForceVec,Color(0,255,0))
-			DrawLine3D.DrawRay(get_collision_point(),XForce,Color(255,0,0))
-			DrawLine3D.DrawRay(get_collision_point(),ZForce,Color(0,0,255))
+			DrawLine3D.DrawRay(get_collision_point(),suspensionForceVec/GameState.debugRayScaleFac,Color(0,255,0))
+			DrawLine3D.DrawRay(get_collision_point(),XForce/GameState.debugRayScaleFac,Color(255,0,0))
+			DrawLine3D.DrawRay(get_collision_point(),ZForce/GameState.debugRayScaleFac,Color(0,0,255))
 			
 		# apply forces relative to parent body
 		parentBody.add_force(finalForce, get_collision_point() - parentBody.global_transform.origin)
