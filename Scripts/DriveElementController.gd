@@ -30,6 +30,8 @@ class ShapeCastResult:
 	var hit_distance : float
 	var hit_position : Vector3
 	var hit_normal : Vector3
+	var hit_point_velocity : Vector3
+	var hit_body : PhysicsBody
 
 # function to do sphere casting
 func shape_cast(origin: Vector3, offset: Vector3):
@@ -42,17 +44,32 @@ func shape_cast(origin: Vector3, offset: Vector3):
 	# exclude parent body!
 	params.exclude = [parentBody]
 	
+	# cast motion to get max motion possible with this cast
 	var castResult = space.cast_motion(params, offset)
 
-	var result: = ShapeCastResult.new()
+	var result : ShapeCastResult = ShapeCastResult.new()
 	
 	result.hit_distance = castResult[0] * offset.length()
 	result.hit_position = origin + offset * castResult[0]
 	
+	# offset the params to the cast hit point and get rest info for more information
 	params.transform.origin += offset * castResult[1]
 	var collision = space.get_rest_info(params)
 	
 	result.hit_normal = collision.get("normal", Vector3.ZERO)
+	result.hit_point_velocity = Vector3.ZERO
+	result.hit_body = null
+	
+	# if a valid object has been hit
+	if collision.get("rid"):
+		# get the reference to the actual PhysicsBody that we are in contact with
+		result.hit_body = instance_from_id(PhysicsServer.body_get_object_instance_id(collision.get("rid")))
+		# get the velocity of the hit body at point of contact
+		var hitBodyState := PhysicsServer.body_get_direct_state(collision.get("rid"))
+		var hitBodyPoint : Vector3 = collision.get("point")
+		result.hit_point_velocity = hitBodyState.get_velocity_at_local_position(hitBodyState.transform.xform_inv(hitBodyPoint))
+		if GameState.debugMode:
+			DrawLine3D.DrawRay(result.hit_position,result.hit_point_velocity,Color(0,0,0))
 	
 	return result
 
@@ -76,6 +93,7 @@ func apply_force(force : Vector3) -> void:
 func _physics_process(delta) -> void:
 	# perform sphere cast
 	var castResult = shape_cast(global_transform.origin, castTo)
+	collisionPoint = castResult.hit_position
 	if GameState.debugMode:
 		DrawLine3D.DrawCube(global_transform.origin,0.1,Color(255,0,255))
 		DrawLine3D.DrawCube(global_transform.origin + castTo,0.1,Color(255,128,255))
@@ -83,7 +101,7 @@ func _physics_process(delta) -> void:
 	if castResult.hit_distance != abs(castTo.y):
 		# if grounded, handle forces
 		grounded = true
-		collisionPoint = castResult.hit_position
+#		collisionPoint = castResult.hit_position
 		if GameState.debugMode:
 			DrawLine3D.DrawCube(castResult.hit_position,0.04,Color(0,255,255))
 			DrawLine3D.DrawRay(castResult.hit_position,castResult.hit_normal,Color(255,255,255))
@@ -99,7 +117,7 @@ func _physics_process(delta) -> void:
 		var suspensionForceVec : Vector3 = castResult.hit_normal * suspensionForce
 		
 		# obtain axis velocity
-		var localVelocity : Vector3 = global_transform.basis.xform_inv(instantLinearVelocity)
+		var localVelocity : Vector3 = global_transform.basis.xform_inv(instantLinearVelocity - castResult.hit_point_velocity) 
 		
 		# axis deceleration forces based on this drive elements mass and current acceleration
 		var XAccel : float = (-localVelocity.x * Xtraction) / delta
@@ -108,7 +126,7 @@ func _physics_process(delta) -> void:
 		var ZForce : Vector3 = global_transform.basis.z * ZAccel * massKG
 		
 		# counter sliding by negating off axis suspension impulse at very low speed
-		var vLimit : float = parentBody.linear_velocity.length_squared() * delta
+		var vLimit : float = instantLinearVelocity.length_squared() * delta
 		if vLimit < staticSlideThreshold:
 #			suspensionForceVec = Vector3.UP * suspensionForce
 			XForce.x -= suspensionForceVec.x * parentBody.global_transform.basis.y.dot(Vector3.UP)
@@ -125,6 +143,10 @@ func _physics_process(delta) -> void:
 			
 		# apply forces relative to parent body
 		parentBody.add_force(finalForce, get_collision_point() - parentBody.global_transform.origin)
+		
+		# apply forces to body affected by this drive element (action = reaction)
+		if castResult.hit_body && castResult.hit_body is RigidBody:
+			castResult.hit_body.add_force(-finalForce, get_collision_point() - castResult.hit_body.global_transform.origin)
 		
 		# set the previous values at the very end, after they have been used
 		previousDistance = curDistance

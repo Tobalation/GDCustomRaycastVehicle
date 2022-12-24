@@ -1,4 +1,15 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=24 format=2]
+
+[ext_resource path="res://Materials/GreySteel.material" type="Material" id=2]
+
+[sub_resource type="PhysicsMaterial" id=24]
+rough = true
+
+[sub_resource type="BoxShape" id=22]
+extents = Vector3( 1, 0.25, 2 )
+
+[sub_resource type="CubeMesh" id=23]
+size = Vector3( 2, 0.5, 4 )
 
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 600, 600 )
@@ -69,6 +80,55 @@ points = PoolVector3Array( 0, 5, 0.5, 0.0490086, 5, 0.497592, 0.0975452, 5, 0.49
 transform = Transform( -0.998024, 0.0570876, -0.0262618, 0.0100297, 0.557285, 0.830261, 0.0620329, 0.828356, -0.556756, 0, 21.6264, 0 )
 shadow_enabled = true
 directional_shadow_mode = 0
+
+[node name="Plank" type="RigidBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.88044, -12 )
+mass = 500.0
+physics_material_override = SubResource( 24 )
+continuous_cd = true
+
+[node name="CollisionShape" type="CollisionShape" parent="Plank"]
+shape = SubResource( 22 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Plank"]
+mesh = SubResource( 23 )
+material/0 = ExtResource( 2 )
+
+[node name="Plank2" type="RigidBody" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 20, 2.88044, -12 )
+mass = 500.0
+continuous_cd = true
+
+[node name="CollisionShape" type="CollisionShape" parent="Plank2"]
+shape = SubResource( 22 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Plank2"]
+mesh = SubResource( 23 )
+material/0 = ExtResource( 2 )
+
+[node name="Plank3" type="RigidBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3.88044, -12 )
+mass = 500.0
+continuous_cd = true
+
+[node name="CollisionShape" type="CollisionShape" parent="Plank3"]
+shape = SubResource( 22 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Plank3"]
+mesh = SubResource( 23 )
+material/0 = ExtResource( 2 )
+
+[node name="Plank4" type="RigidBody" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 20, 4.88044, -12 )
+mass = 500.0
+continuous_cd = true
+
+[node name="CollisionShape" type="CollisionShape" parent="Plank4"]
+shape = SubResource( 22 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Plank4"]
+mesh = SubResource( 23 )
+material/0 = ExtResource( 2 )
 
 [node name="Floor" type="MeshInstance" parent="."]
 cast_shadow = 0
@@ -238,13 +298,13 @@ material/0 = SubResource( 12 )
 [node name="CollisionShape" type="CollisionShape" parent="ramp2/StaticBody"]
 shape = SubResource( 13 )
 
-[node name="BigAssRock" type="MeshInstance" parent="."]
+[node name="BigRock" type="MeshInstance" parent="."]
 transform = Transform( 0.920099, 0.320594, -0.225026, 0.0172725, 0.540737, 0.841014, 0.391304, -0.777704, 0.491994, 29.5096, 9.58008, -83.6479 )
 mesh = SubResource( 15 )
 
-[node name="StaticBody" type="StaticBody" parent="BigAssRock"]
+[node name="StaticBody" type="StaticBody" parent="BigRock"]
 
-[node name="CollisionShape" type="CollisionShape" parent="BigAssRock/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="BigRock/StaticBody"]
 shape = SubResource( 16 )
 
 [node name="Bump" type="MeshInstance" parent="."]

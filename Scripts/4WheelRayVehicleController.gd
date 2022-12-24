@@ -28,7 +28,10 @@ var currentSpeed : float = 0.0
 
 func _handle_physics(delta) -> void:
 	# 4WD with front wheel steering
-	for ray in rayElements:
+	for driveElement in rayElements:
+		var finalForce : Vector3 = Vector3.ZERO
+		var finalBrake : float = rollingResistance
+		
 		# get throttle axis
 		var forwardDrive : float = Input.get_axis("brake", "throttle")
 		# get steering axis
@@ -57,25 +60,25 @@ func _handle_physics(delta) -> void:
 
 		# brake if movement opposite indended direction
 		if sign(currentSpeed) != sign(forwardDrive) && !is_zero_approx(currentSpeed) && forwardDrive != 0:
-			ray.apply_brake(maxBrakingCoef * abs(forwardDrive))
-		# apply gradual slowdown if no throttle applied
-		elif forwardDrive == 0:
-			ray.apply_brake(rollingResistance)
+			finalBrake = maxBrakingCoef * abs(forwardDrive)
 			
 		# no drive inputs, apply parking brake if sitting still
 		if forwardDrive == 0 && steering == 0 && abs(currentSpeed) < autoStopSpeedMS:
-			ray.apply_brake(maxBrakingCoef)
+			finalBrake = maxBrakingCoef
 		
 		# calculate motor forces
 		var speedInterp : float
 		if forwardDrive > 0:
-			speedInterp = range_lerp(linear_velocity.length(), 0.0, maxSpeedKph / 3.6, 0.0, 1.0)
+			speedInterp = range_lerp(currentSpeed, 0.0, maxSpeedKph / 3.6, 0.0, 1.0)
 		elif forwardDrive < 0:
-			speedInterp = range_lerp(linear_velocity.length(), 0.0, maxReverseSpeedKph / 3.6, 0.0, 1.0)
-		currentDrivePower = torqueCurve.interpolate_baked(speedInterp) * drivePerRay * forwardDrive
+			speedInterp = range_lerp(currentSpeed, 0.0, maxReverseSpeedKph / 3.6, 0.0, 1.0)
+		currentDrivePower = torqueCurve.interpolate_baked(speedInterp) * drivePerRay
 		
-		# apply drive force
-		ray.apply_force(global_transform.basis.z * currentDrivePower)
+		finalForce = global_transform.basis.z * currentDrivePower * forwardDrive
+		
+		# apply drive force and braking
+		driveElement.apply_force(finalForce)
+		driveElement.apply_brake(finalBrake)
 
 func _ready() -> void:
 	# setup array of drive elements and setup drive power

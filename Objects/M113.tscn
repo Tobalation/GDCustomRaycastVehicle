@@ -155,7 +155,7 @@ mass = 2000.0
 can_sleep = false
 angular_damp = 0.8
 script = ExtResource( 1 )
-enginePower = 12500.0
+enginePower = 15000.0
 torqueCurve = ExtResource( 7 )
 
 [node name="HullShape" type="CollisionShape" parent="."]
