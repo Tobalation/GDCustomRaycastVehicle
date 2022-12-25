@@ -44,10 +44,10 @@ func _handle_physics(delta) -> void:
 	
 	# calculate speed interpolation
 	var speedInterp : float
-	# forward
+	# forward, use forward max speed
 	if forwardDrive > 0:
 		speedInterp = range_lerp(abs(currentSpeed), 0.0, maxSpeedKph / 3.6, 0.0, 1.0)
-	# reverse
+	# reverse, use reverse max speed
 	elif forwardDrive < 0:
 		speedInterp = range_lerp(abs(currentSpeed), 0.0, maxReverseSpeedKph / 3.6, 0.0, 1.0)
 	# steering drive (always at start of curve)
@@ -141,8 +141,30 @@ func _handle_physics(delta) -> void:
 		
 	elif driveTrainMode == DriveMode.DIRECT_FORCES:
 		# Drive and turn using direct forces on vehicle body
-		# TODO: this later
-		pass
+		# recalculate engine power
+		if sign(currentSpeed) != sign(forwardDrive):
+			speedInterp = 0
+		currentDrivePower = torqueCurve.interpolate_baked(speedInterp) * enginePower/2
+		
+		# calculate track forces
+		var leftDriveForce : Vector3 = global_transform.basis.z * currentDrivePower * (forwardDrive + steering)
+		var rightDriveForce : Vector3 = global_transform.basis.z * currentDrivePower * (forwardDrive + steering * -1)
+		
+		# check grounded status
+		var leftTrackGrounded : bool = false
+		var rightTrackGrounded : bool = false
+		for element in leftDriveElements:
+			if element.grounded:
+				leftTrackGrounded = true
+		for element in rightDriveElements:
+			if element.grounded:
+				rightTrackGrounded = true
+		
+		# apply track forces
+		if leftTrackGrounded:
+			add_force(leftDriveForce, to_global(Vector3(1.5, -0.2, 0)) - global_transform.origin)
+		if rightTrackGrounded:
+			add_force(rightDriveForce, to_global(Vector3(-1.5, -0.2, 0)) - global_transform.origin)
 
 func _ready() -> void:
 	# setup arrays of drive elements and setup drive power

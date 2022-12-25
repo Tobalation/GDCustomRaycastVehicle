@@ -61,6 +61,10 @@ func _handle_physics(delta) -> void:
 		frontRightElement.rotation_degrees.y = currentSteerAngle
 		frontLeftElement.rotation_degrees.y = currentSteerAngle
 
+		# no braking if we are driving
+		if forwardDrive != 0:
+			finalBrake = 0
+
 		# brake if movement opposite indended direction
 		if sign(currentSpeed) != sign(forwardDrive) && !is_zero_approx(currentSpeed) && forwardDrive != 0:
 			finalBrake = maxBrakingCoef * abs(forwardDrive)
@@ -72,9 +76,9 @@ func _handle_physics(delta) -> void:
 		# calculate motor forces
 		var speedInterp : float
 		if forwardDrive > 0:
-			speedInterp = range_lerp(currentSpeed, 0.0, maxSpeedKph / 3.6, 0.0, 1.0)
+			speedInterp = range_lerp(abs(currentSpeed), 0.0, maxSpeedKph / 3.6, 0.0, 1.0)
 		elif forwardDrive < 0:
-			speedInterp = range_lerp(currentSpeed, 0.0, maxReverseSpeedKph / 3.6, 0.0, 1.0)
+			speedInterp = range_lerp(abs(currentSpeed), 0.0, maxReverseSpeedKph / 3.6, 0.0, 1.0)
 		currentDrivePower = torqueCurve.interpolate_baked(speedInterp) * drivePerRay
 		
 		finalForce = global_transform.basis.z * currentDrivePower * forwardDrive
